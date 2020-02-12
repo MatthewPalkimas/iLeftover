@@ -5,7 +5,7 @@ class LoginPage extends StatelessWidget {
     Widget build(BuildContext context) {
       return new Scaffold(
         appBar: new AppBar(
-          title: new Text('Food rrSavior Login'),
+          title: new Text('Food Savior Login'),
         ),
         body: new Container(
           child: new Text('Hello World')
