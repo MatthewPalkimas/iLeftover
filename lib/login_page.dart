@@ -13,14 +13,26 @@ class _LoginPageState extends State<LoginPage> {
   String _email;
   String _password;
 
-  void validateAndSave() {
+  bool validateAndSave() {
     final form = formKey.currentState;
     if (form.validate()) {
       form.save();
-      print('Form is valid. Email: $_email, password: $_password');
+      return true;
     }
     else {
-      print('Form is invalid. Email: $_email, password: $_password');
+      return false;
+    }
+  }
+
+  void validateAndSubmit() async {
+    if (validateAndSave()) {
+      try {
+        AuthResult user = await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password);
+        print("Signed in: ${user.user.uid}");
+      }
+      catch (e) {
+        print('Error: $e');
+      }
     }
   }
 
@@ -50,7 +62,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 new RaisedButton(
                   child: new Text('Login', style: new TextStyle(fontSize: 20.0)),
-                  onPressed: validateAndSave,
+                  onPressed: validateAndSubmit,
                 )
               ],
             ),

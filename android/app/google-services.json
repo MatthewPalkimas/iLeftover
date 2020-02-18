@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "2770608993",
+    "firebase_url": "https://ileftover.firebaseio.com",
+    "project_id": "ileftover",
+    "storage_bucket": "ileftover.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:2770608993:android:f7cbc6bd1efbe880635b20",
+        "android_client_info": {
+          "package_name": "com.example.food_savior"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "2770608993-2a0rnuql4imo9ssu557kh6vbpah5cusv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJtclFV6NX-9UIVske703lTsOXsAm41To"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "2770608993-2a0rnuql4imo9ssu557kh6vbpah5cusv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
