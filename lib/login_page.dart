@@ -6,12 +6,18 @@ class LoginPage extends StatefulWidget {
   State<StatefulWidget> createState() => new _LoginPageState();
 }
 
+enum FormType {
+  login,
+  register
+}
+
 class _LoginPageState extends State<LoginPage> {
   
   final formKey = new GlobalKey<FormState>();
 
   String _email;
   String _password;
+  FormType _formType = FormType.login;
 
   bool validateAndSave() {
     final form = formKey.currentState;
@@ -35,6 +41,13 @@ class _LoginPageState extends State<LoginPage> {
       }
     }
   }
+
+  void moveToRegister(){
+    setState(() {
+      _formType = FormType.register;
+    });
+      }
+
 
   @override
     Widget build(BuildContext context) {
@@ -63,6 +76,10 @@ class _LoginPageState extends State<LoginPage> {
                 new RaisedButton(
                   child: new Text('Login', style: new TextStyle(fontSize: 20.0)),
                   onPressed: validateAndSubmit,
+                ),
+                new FlatButton(
+                  child: new Text('Create an account', style: new TextStyle(fontSize: 20.0)),
+                  onPressed: moveToRegister,
                 )
               ],
             ),
