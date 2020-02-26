@@ -68,8 +68,16 @@ class _LoginPageState extends State<LoginPage> {
       return new Scaffold(
         appBar: new AppBar(
           title: new Text('Food Savior Login'),
+          backgroundColor: Colors.transparent,
+          centerTitle: true,
         ),
         body: new Container(
+          alignment: Alignment.bottomCenter,
+          decoration: BoxDecoration(
+            image: DecorationImage(image: AssetImage('Assets/foodtrans.jpg'),
+            fit: BoxFit.cover,
+          ),
+        ),
           padding: EdgeInsets.all(16.0),
           child: new Form(
             key: formKey,
@@ -77,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: buildInputs() + buildSubmitButtons(),
             ),
-          )
+          ),
         )
       );
     }
@@ -85,12 +93,26 @@ class _LoginPageState extends State<LoginPage> {
     List<Widget> buildInputs(){
       return [
             new TextFormField(
-              decoration: new InputDecoration(labelText: 'Email'),
+              decoration: new InputDecoration(
+                labelStyle: TextStyle(
+                  color: Colors.black,
+                //  fontWeight: FontWeight.bold,
+                  fontSize: 20.0,
+                ),
+                labelText: 'Email',
+              ),
               validator: (value) => value.isEmpty ? 'Email can\'t be empty' : null,
               onSaved: (value) => _email = value,
             ),
             new TextFormField(
-              decoration: new InputDecoration(labelText: 'Password'),
+              decoration: new InputDecoration(
+                labelStyle: TextStyle(
+                  color: Colors.black,
+            //      fontWeight: FontWeight.bold,
+                  fontSize: 20.0,
+                ),
+                labelText: 'Password',
+                ),
               validator: (value) => value.isEmpty ? 'Password can\'t be empty' : null,
               obscureText: true,
               onSaved: (value) => _password = value,
@@ -106,7 +128,7 @@ class _LoginPageState extends State<LoginPage> {
               child: new Text('Login', style: new TextStyle(fontSize: 20.0)),
               onPressed: validateAndSubmit,
             ),
-            new FlatButton(
+            new RaisedButton(
               child: new Text('Create an account', style: new TextStyle(fontSize: 20.0)),
               onPressed: moveToRegister,
             )
@@ -114,10 +136,10 @@ class _LoginPageState extends State<LoginPage> {
       } else {
         return [
             new RaisedButton(
-              child: new Text('Create an account', style: new TextStyle(fontSize: 20.0)),
+              child: new Text('Create an Account', style: new TextStyle(fontSize: 20.0)),
               onPressed: validateAndSubmit,
             ),
-            new FlatButton(
+            new RaisedButton(
               child: new Text('Have an account? Login', style: new TextStyle(fontSize: 20.0)),
               onPressed: moveToLogin,
             )
