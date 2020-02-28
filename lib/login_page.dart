@@ -100,6 +100,10 @@ class _LoginPageState extends State<LoginPage> {
                   fontSize: 20.0,
                 ),
                 labelText: 'Email',
+                icon: new Icon(
+                  Icons.mail,
+                  color: Colors.black,
+                )
               ),
               validator: (value) => value.isEmpty ? 'Email can\'t be empty' : null,
               onSaved: (value) => _email = value,
@@ -112,6 +116,10 @@ class _LoginPageState extends State<LoginPage> {
                   fontSize: 20.0,
                 ),
                 labelText: 'Password',
+                icon: new Icon(
+                  Icons.lock,
+                  color: Colors.black,
+                )
                 ),
               validator: (value) => value.isEmpty ? 'Password can\'t be empty' : null,
               obscureText: true,
