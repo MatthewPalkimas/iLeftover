@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'auth.dart';
 
 class LoginPage extends StatefulWidget {
+  LoginPage({this.auth});
+  final BaseAuth auth;
+
+
   @override
   State<StatefulWidget> createState() => new _LoginPageState();
 }
@@ -34,12 +39,12 @@ class _LoginPageState extends State<LoginPage> {
     if (validateAndSave()) {
       try {
         if (_formType == FormType.login) {
-          AuthResult user = await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password);
-          print("Signed in: ${user.user.uid}");
+          String userId = await widget.auth.signInWithEmailAndPassword(_email, _password);
+          print('Signed in: $userId');
         }
         else {
-          AuthResult user = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email, password: _password);
-          print("Signed in: ${user.user.uid}");
+          String userId = await widget.auth.createUserWithEmailAndPassword(_email, _password);
+          print("Signed in: $userId");
         }
       }
       catch (e) {
@@ -100,10 +105,6 @@ class _LoginPageState extends State<LoginPage> {
                   fontSize: 20.0,
                 ),
                 labelText: 'Email',
-                icon: new Icon(
-                  Icons.mail,
-                  color: Colors.black,
-                )
               ),
               validator: (value) => value.isEmpty ? 'Email can\'t be empty' : null,
               onSaved: (value) => _email = value,
@@ -116,10 +117,6 @@ class _LoginPageState extends State<LoginPage> {
                   fontSize: 20.0,
                 ),
                 labelText: 'Password',
-                icon: new Icon(
-                  Icons.lock,
-                  color: Colors.black,
-                )
                 ),
               validator: (value) => value.isEmpty ? 'Password can\'t be empty' : null,
               obscureText: true,

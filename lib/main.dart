@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:food_savior/auth.dart';
 import 'login_page.dart';
+import 'auth.dart';
 
 void main()
 {
@@ -16,7 +18,7 @@ class MyApp extends StatelessWidget
         theme: new ThemeData(
           primarySwatch: Colors.lightBlue,
         ),
-        home: new LoginPage()
+        home: new LoginPage(auth: new Auth())
       );
     }
 }
