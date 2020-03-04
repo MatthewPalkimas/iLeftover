@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'auth.dart';
 
 class Page1 extends StatefulWidget {
-  Page1({this.auth, this.onSignedOut});
+  Page1({this.auth, this.onSignedOut, this.goBack});
   final BaseAuth auth;
   final VoidCallback onSignedOut;
+  final VoidCallback goBack;
 
   @override
   State<StatefulWidget> createState() => new _Page1PageState();
@@ -26,6 +27,10 @@ class _Page1PageState extends State<Page1>{
       return new Scaffold(
           appBar: new AppBar(
             actions: <Widget>[
+            new FlatButton(
+                child: new Text('Back', style: new TextStyle(fontSize: 17.0, color: Colors.white)),
+                onPressed: widget.goBack
+              ),
             new FlatButton(
                 child: new Text('Logout', style: new TextStyle(fontSize: 17.0, color: Colors.white)),
                 onPressed: widget._signOut

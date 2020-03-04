@@ -24,9 +24,15 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>{
   int pageNumber = 0;
 
-  void change_page() {
+  void changePage() {
     setState(() {
       pageNumber = 1;
+    });
+  }
+
+  void defaultPage() {
+    setState(() {
+      pageNumber = 0;
     });
   }
 
@@ -60,7 +66,7 @@ class _HomePageState extends State<HomePage>{
                       ),
                       new RaisedButton(
                         child: new Text('Next Page', style: new TextStyle(fontSize: 20.0)),
-                        onPressed: change_page
+                        onPressed: changePage
                       ),
                       new Padding(
                          padding: EdgeInsets.only(top: 50.0)
@@ -74,7 +80,8 @@ class _HomePageState extends State<HomePage>{
       case 1:
        return new Page1(
          auth: widget.auth,
-         onSignedOut: widget._signOut
+         onSignedOut: widget._signOut,
+         goBack: defaultPage
       );
     }
   }
