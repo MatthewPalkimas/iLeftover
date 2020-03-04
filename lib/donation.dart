@@ -1,17 +1,33 @@
 import 'package:flutter/material.dart';
+import 'auth.dart';
 
-class DonationPage extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => new _DonationPageState();
-}
+class HomePage extends StatelessWidget {
+  HomePage({this.auth, this.onSignedOut});
+  final BaseAuth auth;
+  final VoidCallback onSignedOut;
 
-class _DonationPageState extends State<DonationPage>
-{
+  void _signOut() async {
+    try {
+      await auth.signOut();
+      onSignedOut();
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
     Widget build(BuildContext context)
     {
-      return new Material(
-          child: new Container(
+      return new Scaffold(
+          appBar: new AppBar(
+            actions: <Widget>[
+            new FlatButton(
+                child: new Text('Logout', style: new TextStyle(fontSize: 17.0, color: Colors.white)),
+                onPressed: _signOut
+              )
+            ],
+          ),
+          body: new Container(
             decoration: BoxDecoration(
               image: DecorationImage(image: AssetImage('Assets/wood-texture.jpg'),
               fit: BoxFit.cover,
