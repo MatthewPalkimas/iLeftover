@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'auth.dart';
 import 'login_page.dart';
@@ -28,16 +26,11 @@ class _RootPageState extends State<RootPage>{
     super.initState(); 
     widget.auth.currentUser().then((userId){
       setState(() {
-        authStatus = userId == null ? AuthStatus.notSignedIn : AuthStatus.signedIn;
+       // authStatus = userId == null ? AuthStatus.notSignedIn : AuthStatus.signedIn;
       });
     });
   }
 
-  void _signedIn(){
-    setState(() {
-      authStatus = AuthStatus.signedIn;
-    });
-  }
 
   @override 
   Widget build(BuildContext context){
@@ -45,7 +38,6 @@ class _RootPageState extends State<RootPage>{
       case AuthStatus.notSignedIn:
         return new LoginPage(
           auth: widget.auth,
-          onSignedIn: _signedIn,
         );
       case AuthStatus.signedIn:
        return new Scaffold(
