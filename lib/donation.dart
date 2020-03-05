@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'auth.dart';
 import 'state1.dart';
+import 'state2.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({this.auth, this.onSignedOut});
@@ -88,7 +89,7 @@ class _HomePageState extends State<HomePage>{
          goBack: defaultPage
       );
       case 2:
-       return new Page1(
+       return new Page2(
          auth: widget.auth,
          onSignedOut: widget._signOut,
          goBack: defaultPage
