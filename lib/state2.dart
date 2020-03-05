@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'auth.dart';
 
-class Page1 extends StatefulWidget {
-  Page1({this.auth, this.onSignedOut, this.goBack});
+class Page2 extends StatefulWidget {
+  Page2({this.auth, this.onSignedOut, this.goBack});
   final BaseAuth auth;
   final VoidCallback onSignedOut;
   final VoidCallback goBack;
 
   @override
-  State<StatefulWidget> createState() => new _Page1PageState();
+  State<StatefulWidget> createState() => new _Page2PageState();
   void _signOut() async {
     try {
       await auth.signOut();
@@ -19,7 +19,7 @@ class Page1 extends StatefulWidget {
   }
 }
 
-class _Page1PageState extends State<Page1>{
+class _Page2PageState extends State<Page2>{
 
   @override
     Widget build(BuildContext context)
@@ -28,9 +28,8 @@ class _Page1PageState extends State<Page1>{
           appBar: new AppBar(
             actions: <Widget>[
             new FlatButton(
-                child: new Text('Back', style: new TextStyle(fontSize: 17.0, color: Colors.white),),
+                child: new Text('Back', style: new TextStyle(fontSize: 17.0, color: Colors.white)),
                 onPressed: widget.goBack
-                
               ),
             new FlatButton(
                 child: new Text('Logout', style: new TextStyle(fontSize: 17.0, color: Colors.white)),
@@ -50,7 +49,7 @@ class _Page1PageState extends State<Page1>{
                   children: <Widget>[
                     new Padding(padding: EdgeInsets.only(top: 140.0)),
                       new Text(
-                         'Donation Page',
+                         'Yoink Page',
                           style: new TextStyle(color: Colors.green, fontSize: 25.0),
                       ),
                       new Padding(

@@ -24,9 +24,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>{
   int pageNumber = 0;
 
-  void changePage() {
+  void changePage(int pageNum) {
     setState(() {
-      pageNumber = 1;
+      pageNumber = pageNum;
     });
   }
 
@@ -61,12 +61,16 @@ class _HomePageState extends State<HomePage>{
                   children: <Widget>[
                     new Padding(padding: EdgeInsets.only(top: 140.0)),
                       new Text(
-                         'Donate Food in Your Area',
+                         'Welcome motha fuckas',
                           style: new TextStyle(color: Colors.green, fontSize: 25.0),
                       ),
                       new RaisedButton(
-                        child: new Text('Next Page', style: new TextStyle(fontSize: 20.0)),
-                        onPressed: changePage
+                        child: new Text('Donation Page', style: new TextStyle(fontSize: 20.0)),
+                        onPressed: () => changePage(1)
+                      ),
+                      new RaisedButton(
+                        child: new Text('Yoink Page', style: new TextStyle(fontSize: 20.0)),
+                        onPressed: () => changePage(2)
                       ),
                       new Padding(
                          padding: EdgeInsets.only(top: 50.0)
@@ -78,6 +82,12 @@ class _HomePageState extends State<HomePage>{
           ),
         );
       case 1:
+       return new Page1(
+         auth: widget.auth,
+         onSignedOut: widget._signOut,
+         goBack: defaultPage
+      );
+      case 2:
        return new Page1(
          auth: widget.auth,
          onSignedOut: widget._signOut,
