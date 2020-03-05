@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'auth.dart';
 import 'state1.dart';
 import 'state2.dart';
+import 'maps.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({this.auth, this.onSignedOut});
@@ -73,6 +74,10 @@ class _HomePageState extends State<HomePage>{
                         child: new Text('Yoink Page', style: new TextStyle(fontSize: 20.0)),
                         onPressed: () => changePage(2)
                       ),
+                      new RaisedButton(
+                        child: new Text('Maps Page', style: new TextStyle(fontSize: 20.0)),
+                        onPressed: () => changePage(3)
+                      ),
                       new Padding(
                          padding: EdgeInsets.only(top: 50.0)
                       ),
@@ -90,6 +95,12 @@ class _HomePageState extends State<HomePage>{
       );
       case 2:
        return new Page2(
+         auth: widget.auth,
+         onSignedOut: widget._signOut,
+         goBack: defaultPage
+      );
+      case 3:
+       return new Page3(
          auth: widget.auth,
          onSignedOut: widget._signOut,
          goBack: defaultPage
