@@ -28,7 +28,7 @@ class _Page3PageState extends State<Page3>{
   static const LatLng _center = const LatLng(45.521563,-122.677433);
   final Set<Marker> _marker = {};
   LatLng _lastMapPosition = _center;
-  MapType _currentMapType = MapType,normal;
+  MapType _currentMapType = MapType.normal;
 
   @override
     Widget build(BuildContext context)
@@ -58,7 +58,7 @@ class _Page3PageState extends State<Page3>{
                   children: <Widget>[
                     new Padding(padding: EdgeInsets.only(top: 140.0)),
                       new Text(
-                         'Yoink Page',
+                         'Maps Page',
                           style: new TextStyle(color: Colors.green, fontSize: 25.0),
                       ),
                       new Padding(
