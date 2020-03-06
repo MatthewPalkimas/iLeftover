@@ -44,6 +44,7 @@ class _HomePageState extends State<HomePage>{
       case 0:
         return new Scaffold(
           appBar: new AppBar(
+            backgroundColor: Color(0xFF139427),
             actions: <Widget>[
             new FlatButton(
                 child: new Text('Logout', style: new TextStyle(fontSize: 17.0, color: Colors.white)),
