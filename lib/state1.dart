@@ -26,6 +26,7 @@ class _Page1PageState extends State<Page1>{
     {
       return new Scaffold(
           appBar: new AppBar(
+            backgroundColor: Color(0xFF139427),
             actions: <Widget>[
             new FlatButton(
                 child: new Text('Back', style: new TextStyle(fontSize: 17.0, color: Colors.white),),

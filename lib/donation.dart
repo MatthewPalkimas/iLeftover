@@ -44,6 +44,7 @@ class _HomePageState extends State<HomePage>{
       case 0:
         return new Scaffold(
           appBar: new AppBar(
+            backgroundColor: Color(0xFF139427),
             actions: <Widget>[
             new FlatButton(
                 child: new Text('Logout', style: new TextStyle(fontSize: 17.0, color: Colors.white)),
@@ -58,33 +59,115 @@ class _HomePageState extends State<HomePage>{
               ),
             ),
             child: new Container(
-              child: new Center(
-                child: new Column(
-                  children: <Widget>[
-                    new Padding(padding: EdgeInsets.only(top: 140.0)),
-                      new Text(
-                         'Welcome motha fuckas',
-                          style: new TextStyle(color: Colors.green, fontSize: 25.0),
-                      ),
-                      new RaisedButton(
-                        child: new Text('Donation Page', style: new TextStyle(fontSize: 20.0)),
-                        onPressed: () => changePage(1)
-                      ),
-                      new RaisedButton(
-                        child: new Text('Yoink Page', style: new TextStyle(fontSize: 20.0)),
-                        onPressed: () => changePage(2)
-                      ),
-                      new RaisedButton(
-                        child: new Text('Maps Page', style: new TextStyle(fontSize: 20.0)),
-                        onPressed: () => changePage(3)
-                      ),
-                      new Padding(
-                         padding: EdgeInsets.only(top: 50.0)
+              child: Column(
+                children: <Widget>[
+                  new Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      new Container(
+                      padding: EdgeInsets.only(top: 25.0),
+                      alignment: Alignment.center,
+                      child: new Text("iLeftover", style: new TextStyle(
+                        color: Color(0xFF139427), 
+                        fontSize: 90.0,
+                        shadows: [
+                          Shadow( // bottomLeft
+                            offset: Offset(-2, -2),
+                            color: Color(0xFF0ea4b5)
+                          ),
+                          Shadow( // bottomRight
+                            offset: Offset(2, -2),
+                            color: Color(0xFF0ea4b5)
+                          ),
+                          Shadow( // topRight
+                            offset: Offset(2, 2),
+                            color: Color(0xFF0ea4b5)
+                          ),
+                          Shadow( // topLeft
+                            offset: Offset(-2, 2),
+                            color: Color(0xFF0ea4b5)
+                          ),
+                        ]
+                        )
+                        ),
                       ),
                     ],
-                  )
-              ),
-            )
+                  ),
+                  new Stack(
+                    alignment: Alignment.topCenter,
+                    children: <Widget>[
+                      new Container(
+                        margin: new EdgeInsets.only(top:30.0),
+                        height: 80.0,
+                        width: 80.0,
+                        decoration: new BoxDecoration(
+                          borderRadius: new BorderRadius.circular(80.0),
+                          color: Color(0xFF139427)
+                        ),
+                        child: new Icon(Icons.local_offer,color: Colors.white,),
+                      ),
+                      new Container(
+                        margin: new EdgeInsets.only(top:150.0),
+                        height: 80.0,
+                        width: 80.0,
+                        decoration: new BoxDecoration(
+                          borderRadius: new BorderRadius.circular(80.0),
+                          color: Color(0xFF0394fc)
+                        ),
+                        child: new Icon(Icons.fastfood,color: Colors.white,),
+                      ),
+                      new Container(
+                        margin: new EdgeInsets.only(right: 110.0, top:90.0),
+                        height: 80.0,
+                        width: 80.0,
+                        decoration: new BoxDecoration(
+                          borderRadius: new BorderRadius.circular(80.0),
+                          color: Color(0xFFFF0000)
+                        ),
+                        child: new Icon(Icons.home,color: Colors.white,),
+                      ),
+                      new Container(
+                        margin: new EdgeInsets.only(left: 110.0, top:90.0),
+                        height: 80.0,
+                        width: 80.0,
+                        decoration: new BoxDecoration(
+                          borderRadius: new BorderRadius.circular(80.0),
+                          color: Color(0xFFFCAD03)
+                        ),
+                        child: new Icon(Icons.directions_car,color: Colors.white,),
+                      ),
+                    ],
+                  ),
+                  new Container(
+                        child: Center(
+                            child: new Column(
+                              children: <Widget>[
+                                new Padding(padding: EdgeInsets.only(top: 60.0)),
+                                  new RaisedButton(
+                                    child: new Text('Donation Page', style: new TextStyle(fontSize: 20.0)),
+                                    onPressed: () => changePage(1),
+                                    textColor: Colors.white,
+                                    color: Color(0xFF139427),
+                                  ),
+                                  new RaisedButton(
+                                    child: new Text('Yoink Page', style: new TextStyle(fontSize: 20.0)),
+                                    onPressed: () => changePage(2),
+                                    textColor: Colors.white,
+                                    color: Color(0xFFFF0000)
+                                  ),
+                                  new RaisedButton(
+                                    child: new Text('Maps Page', style: new TextStyle(fontSize: 20.0)),
+                                    onPressed: () => changePage(3),
+                                    textColor: Colors.white,
+                                    color: Color(0xFFFCAD03)
+                                  ),
+                                ],
+                              )
+                          ),
+                      ),
+                ],
+              )
+            ),
           ),
         );
       case 1:
