@@ -43,7 +43,7 @@ class _Page2PageState extends State<Page2>{
             stream: Firestore.instance.collection('Foodinfo').document('food').snapshots(),
             builder: (context,snapshot) {
               if(!snapshot.hasData) 
-              return Text('Loading data... Please wait...');
+                return Text('Loading data... Please wait...');
               return Column(
                 children: <Widget> [
                   Text(snapshot.data.documents[0]['FoodName']),
@@ -51,6 +51,7 @@ class _Page2PageState extends State<Page2>{
                 ],
               );
             },
-          ));
+          )
+      );
     }
 }
