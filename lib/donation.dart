@@ -60,21 +60,53 @@ class _HomePageState extends State<HomePage>{
             child: new Container(
               child: Column(
                 children: <Widget>[
+                  new Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      new Container(
+                      padding: EdgeInsets.only(top: 25.0),
+                      alignment: Alignment.center,
+                      child: new Text("iLeftover", style: new TextStyle(
+                        color: Color(0xFF139427), 
+                        fontSize: 90.0,
+                        shadows: [
+                          Shadow( // bottomLeft
+                            offset: Offset(-2, -2),
+                            color: Color(0xFF0ea4b5)
+                          ),
+                          Shadow( // bottomRight
+                            offset: Offset(2, -2),
+                            color: Color(0xFF0ea4b5)
+                          ),
+                          Shadow( // topRight
+                            offset: Offset(2, 2),
+                            color: Color(0xFF0ea4b5)
+                          ),
+                          Shadow( // topLeft
+                            offset: Offset(-2, 2),
+                            color: Color(0xFF0ea4b5)
+                          ),
+                        ]
+                        )
+                        ),
+                      ),
+                    ],
+                  ),
                   new Stack(
                     alignment: Alignment.topCenter,
                     children: <Widget>[
                       new Container(
-                        margin: new EdgeInsets.only(top:40.0),
+                        margin: new EdgeInsets.only(top:30.0),
                         height: 80.0,
                         width: 80.0,
                         decoration: new BoxDecoration(
                           borderRadius: new BorderRadius.circular(80.0),
-                          color: Color(0xFF18D191)
+                          color: Color(0xFF139427)
                         ),
                         child: new Icon(Icons.local_offer,color: Colors.white,),
                       ),
                       new Container(
-                        margin: new EdgeInsets.only(top:160.0),
+                        margin: new EdgeInsets.only(top:150.0),
                         height: 80.0,
                         width: 80.0,
                         decoration: new BoxDecoration(
@@ -84,22 +116,22 @@ class _HomePageState extends State<HomePage>{
                         child: new Icon(Icons.fastfood,color: Colors.white,),
                       ),
                       new Container(
-                        margin: new EdgeInsets.only(right: 110.0, top:100.0),
+                        margin: new EdgeInsets.only(right: 110.0, top:90.0),
                         height: 80.0,
                         width: 80.0,
                         decoration: new BoxDecoration(
                           borderRadius: new BorderRadius.circular(80.0),
-                          color: Color(0xFFFC6A7F)
+                          color: Color(0xFFFF0000)
                         ),
                         child: new Icon(Icons.home,color: Colors.white,),
                       ),
                       new Container(
-                        margin: new EdgeInsets.only(left: 110.0, top:100.0),
+                        margin: new EdgeInsets.only(left: 110.0, top:90.0),
                         height: 80.0,
                         width: 80.0,
                         decoration: new BoxDecoration(
                           borderRadius: new BorderRadius.circular(80.0),
-                          color: Color(0xFFFFCE56)
+                          color: Color(0xFFFCAD03)
                         ),
                         child: new Icon(Icons.directions_car,color: Colors.white,),
                       ),
@@ -109,32 +141,29 @@ class _HomePageState extends State<HomePage>{
                         child: Center(
                             child: new Column(
                               children: <Widget>[
-                                new Padding(padding: EdgeInsets.only(top: 80.0)),
+                                new Padding(padding: EdgeInsets.only(top: 60.0)),
                                   new RaisedButton(
                                     child: new Text('Donation Page', style: new TextStyle(fontSize: 20.0)),
-                                    onPressed: () => changePage(1)
+                                    onPressed: () => changePage(1),
+                                    textColor: Colors.white,
+                                    color: Color(0xFF139427),
                                   ),
                                   new RaisedButton(
                                     child: new Text('Yoink Page', style: new TextStyle(fontSize: 20.0)),
-                                    onPressed: () => changePage(2)
+                                    onPressed: () => changePage(2),
+                                    textColor: Colors.white,
+                                    color: Color(0xFFFF0000)
                                   ),
                                   new RaisedButton(
                                     child: new Text('Maps Page', style: new TextStyle(fontSize: 20.0)),
-                                    onPressed: () => changePage(3)
-                                  ),
-                                  new Padding(
-                                    padding: EdgeInsets.only(top: 50.0)
+                                    onPressed: () => changePage(3),
+                                    textColor: Colors.white,
+                                    color: Color(0xFFFCAD03)
                                   ),
                                 ],
                               )
                           ),
                       ),
-                  new Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      new Text("iLeftover", style: new TextStyle(color: Colors.lightGreen, fontSize: 30.0), )
-                    ],
-                  )
                 ],
               )
             ),
