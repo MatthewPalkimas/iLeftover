@@ -40,18 +40,20 @@ class _Page2PageState extends State<Page2>{
             ],
           ),
           body:StreamBuilder(
-            stream: Firestore.instance.collection('Foodinfo').document('food').snapshots(),
+            stream: Firestore.instance.collection("food").snapshots(),
             builder: (context,snapshot) {
               if(!snapshot.hasData) 
                 return Text('Loading data... Please wait...');
-              return Column(
-                children: <Widget> [
-                  Text(snapshot.data.documents[0]['FoodName']),
-                  Text(snapshot.data.documents[0]['FoodType']) 
-                ],
+
+              return new ListView.builder(
+                itemCount: snapshot.data.documents.length,
+                itemBuilder: (context,index){
+                  DocumentSnapshot ds = snapshot.data.documents[index];
+                  return new Text(ds['Name']);
+                }
               );
             },
-          )
+          ),
       );
     }
 }
