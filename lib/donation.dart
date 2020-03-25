@@ -102,8 +102,7 @@ class _HomePageState extends State<HomePage>{
       case 3:
        return new Page3(
          auth: widget.auth,
-         onSignedOut: widget._signOut,
-         goBack: defaultPage
+         
       );
     }
   }
