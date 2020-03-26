@@ -26,14 +26,14 @@ class _Page3PageState extends State<Page3> {
   //
   
   Completer<GoogleMapController> _controller = Completer();
-  static const LatLng _center = const LatLng(45.521563, -122.677433);
+  static const LatLng _center = const LatLng(25.7602, -80.1959);
   final Set<Marker> _markers = {};
   LatLng _lastMapPosition = _center;
   MapType _currentMapType = MapType.normal;
  
   static final CameraPosition _position1 = CameraPosition(
     bearing: 192.833,
-    target: LatLng(45.531563, -122.677433),
+    target: LatLng(25.7602, -80.1959),
     tilt: 59.440,
     zoom: 11.0,
   );
