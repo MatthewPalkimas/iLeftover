@@ -4,36 +4,26 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'auth.dart';
 
 class Page3 extends StatefulWidget {
-   Page3({this.auth, this.onSignedOut, this.goBack});
+   Page3({this.auth});
   final BaseAuth auth;
-  final VoidCallback onSignedOut;
-  final VoidCallback goBack;
-  final String title = "iLeftover";
+  final String title = "iLeftOver";
   
   @override
   _Page3PageState createState() => _Page3PageState();
-  void _signOut() async {
-    try {
-      await auth.signOut();
-      onSignedOut();
-    } catch (e) {
-      print(e);
-    }
-  }
+  
 }
 
 class _Page3PageState extends State<Page3> {
   //
-  
   Completer<GoogleMapController> _controller = Completer();
-  static const LatLng _center = const LatLng(45.521563, -122.677433);
+  static const LatLng _center = const LatLng(25.7602, 80.1959);
   final Set<Marker> _markers = {};
   LatLng _lastMapPosition = _center;
   MapType _currentMapType = MapType.normal;
  
   static final CameraPosition _position1 = CameraPosition(
     bearing: 192.833,
-    target: LatLng(45.531563, -122.677433),
+    target: LatLng(25.7602, 80.1959),
     tilt: 59.440,
     zoom: 11.0,
   );
@@ -93,17 +83,7 @@ class _Page3PageState extends State<Page3> {
       home: Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
-          backgroundColor: Color(0xFF139427),
-            actions: <Widget>[
-            new FlatButton(
-                child: new Text('Back', style: new TextStyle(fontSize: 17.0, color: Colors.white),),
-                onPressed: widget.goBack
-              ),
-            new FlatButton(
-                child: new Text('Logout', style: new TextStyle(fontSize: 17.0, color: Colors.white)),
-                onPressed: widget._signOut
-              )
-            ],
+          backgroundColor: Colors.blue,
         ),
         body: Stack(
           children: <Widget>[
