@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'auth.dart';
 
 class LoginPage extends StatefulWidget {
@@ -98,6 +97,28 @@ class _LoginPageState extends State<LoginPage> {
 
     List<Widget> buildInputs(){
       return [
+            // new Text("iLeftover", style: new TextStyle(
+            //             color: Color(0xFF139427), 
+            //             fontSize: 90.0,
+            //             shadows: [
+            //               Shadow( // bottomLeft
+            //                 offset: Offset(-2, -2),
+            //                 color: Color(0xFF0ea4b5)
+            //               ),
+            //               Shadow( // bottomRight
+            //                 offset: Offset(2, -2),
+            //                 color: Color(0xFF0ea4b5)
+            //               ),
+            //               Shadow( // topRight
+            //                 offset: Offset(2, 2),
+            //                 color: Color(0xFF0ea4b5)
+            //               ),
+            //               Shadow( // topLeft
+            //                 offset: Offset(-2, 2),
+            //                 color: Color(0xFF0ea4b5)
+            //               ),
+            //             ])
+            // ),
             new TextFormField(
               decoration: new InputDecoration(
                 labelStyle: TextStyle(
@@ -137,7 +158,8 @@ class _LoginPageState extends State<LoginPage> {
             new RaisedButton(
               child: new Text('Create an account', style: new TextStyle(fontSize: 20.0)),
               onPressed: moveToRegister,
-            )
+            ),
+            _signInButton()
         ];
       } else {
         return [
@@ -148,8 +170,49 @@ class _LoginPageState extends State<LoginPage> {
             new RaisedButton(
               child: new Text('Have an account? Login', style: new TextStyle(fontSize: 20.0)),
               onPressed: moveToLogin,
-            )
+            ),
         ];
       }
     }
+  Widget _signInButton() {
+    return new Row(
+      children: <Widget>[
+        new Container(
+          padding: EdgeInsets.only(left: 60.0, top: 25.0),
+          alignment: Alignment.center,
+          child: new OutlineButton(
+            splashColor: Colors.green,
+            onPressed: () {
+              widget.auth.signInWithGoogle().whenComplete(() {
+                widget.onSignedIn();
+              });
+            },
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+            highlightElevation: 0,
+            borderSide: BorderSide(color: Colors.green),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Image(image: AssetImage("Assets/google_logo.png"), height: 35.0),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: Text(
+                      'Sign in with Google',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.black,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          )
+        )
+      ],
+    );
+  }
 }

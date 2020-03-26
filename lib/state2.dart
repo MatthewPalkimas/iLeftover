@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Page2 extends StatefulWidget {
   Page2({this.auth, this.onSignedOut, this.goBack});
@@ -26,6 +27,7 @@ class _Page2PageState extends State<Page2>{
     {
       return new Scaffold(
           appBar: new AppBar(
+            backgroundColor: Color(0xFF139427),
             actions: <Widget>[
             new FlatButton(
                 child: new Text('Back', style: new TextStyle(fontSize: 17.0, color: Colors.white)),
@@ -37,28 +39,20 @@ class _Page2PageState extends State<Page2>{
               )
             ],
           ),
-          body: new Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(image: AssetImage('Assets/wood-texture.jpg'),
-              fit: BoxFit.cover,
-              ),
-            ),
-            child: new Container(
-              child: new Center(
-                child: new Column(
-                  children: <Widget>[
-                    new Padding(padding: EdgeInsets.only(top: 140.0)),
-                      new Text(
-                         'Yoink Page',
-                          style: new TextStyle(color: Colors.green, fontSize: 25.0),
-                      ),
-                      new Padding(
-                         padding: EdgeInsets.only(top: 50.0)
-                      ),
-                    ],
-                  )
-              ),
-            )
+          body:StreamBuilder(
+            stream: Firestore.instance.collection("food").snapshots(),
+            builder: (context,snapshot) {
+              if(!snapshot.hasData) 
+                return Text('Loading data... Please wait...');
+
+              return new ListView.builder(
+                itemCount: snapshot.data.documents.length,
+                itemBuilder: (context,index){
+                  DocumentSnapshot ds = snapshot.data.documents[index];
+                  return new Text(ds['Name']);
+                }
+              );
+            },
           ),
       );
     }
