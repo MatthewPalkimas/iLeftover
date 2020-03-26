@@ -8,7 +8,7 @@ class Page3 extends StatefulWidget {
   final BaseAuth auth;
   final VoidCallback onSignedOut;
   final VoidCallback goBack;
-  final String title = "iLeftover";
+  final String title = "iLeftOver";
   
   @override
   _Page3PageState createState() => _Page3PageState();
@@ -19,12 +19,11 @@ class Page3 extends StatefulWidget {
     } catch (e) {
       print(e);
     }
-  }
+  } 
 }
 
 class _Page3PageState extends State<Page3> {
   //
-  
   Completer<GoogleMapController> _controller = Completer();
   static const LatLng _center = const LatLng(25.7602, -80.1959);
   final Set<Marker> _markers = {};
@@ -98,6 +97,7 @@ class _Page3PageState extends State<Page3> {
             new FlatButton(
                 child: new Text('Back', style: new TextStyle(fontSize: 17.0, color: Colors.white),),
                 onPressed: widget.goBack
+                
               ),
             new FlatButton(
                 child: new Text('Logout', style: new TextStyle(fontSize: 17.0, color: Colors.white)),
