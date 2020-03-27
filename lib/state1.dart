@@ -41,9 +41,7 @@ class _Page1PageState extends State<Page1>{
           ),
           body: new Container(
             decoration: BoxDecoration(
-              image: DecorationImage(image: AssetImage('Assets/wood-texture.jpg'),
-              fit: BoxFit.cover,
-              ),
+             
             ),
             child: new Container(
               child: new Center(

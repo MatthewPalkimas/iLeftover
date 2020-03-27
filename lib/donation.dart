@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage>{
       case 0:
         return new Scaffold(
           appBar: new AppBar(
-            backgroundColor: Color(0xFF139427),
+            backgroundColor: Color(0xFFC4CACF),
             actions: <Widget>[
             new FlatButton(
                 child: new Text('Logout', style: new TextStyle(fontSize: 17.0, color: Colors.white)),
@@ -54,9 +54,7 @@ class _HomePageState extends State<HomePage>{
           ),
           body: new Container(
             decoration: BoxDecoration(
-              image: DecorationImage(image: AssetImage('Assets/wood-texture.jpg'),
-              fit: BoxFit.cover,
-              ),
+             
             ),
             child: new Container(
               child: Column(
@@ -64,33 +62,12 @@ class _HomePageState extends State<HomePage>{
                   new Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      new Container(
-                      padding: EdgeInsets.only(top: 25.0),
-                      alignment: Alignment.center,
-                      child: new Text("iLeftover", style: new TextStyle(
-                        color: Color(0xFF139427), 
-                        fontSize: 90.0,
-                        shadows: [
-                          Shadow( // bottomLeft
-                            offset: Offset(-2, -2),
-                            color: Color(0xFF0ea4b5)
+                      Image.asset(
+                        'Assets/LOGO.png',
+                        width: 300,
+                        height: 150,
+                        fit: BoxFit.contain,
                           ),
-                          Shadow( // bottomRight
-                            offset: Offset(2, -2),
-                            color: Color(0xFF0ea4b5)
-                          ),
-                          Shadow( // topRight
-                            offset: Offset(2, 2),
-                            color: Color(0xFF0ea4b5)
-                          ),
-                          Shadow( // topLeft
-                            offset: Offset(-2, 2),
-                            color: Color(0xFF0ea4b5)
-                          ),
-                        ]
-                        )
-                        ),
-                      ),
                     ],
                   ),
                   new Stack(

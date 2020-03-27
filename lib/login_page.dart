@@ -71,19 +71,9 @@ class _LoginPageState extends State<LoginPage> {
   @override
     Widget build(BuildContext context) {
       return new Scaffold(
-        appBar: new AppBar(
-          title: new Text('Food Savior Login'),
-          backgroundColor: Colors.transparent,
-          centerTitle: true,
-        ),
         body: new Container(
-          alignment: Alignment.bottomCenter,
-          decoration: BoxDecoration(
-            image: DecorationImage(image: AssetImage('Assets/foodtrans.jpg'),
-            fit: BoxFit.cover,
-          ),
-        ),
-          padding: EdgeInsets.all(16.0),
+          alignment: Alignment.center,
+          padding: EdgeInsets.fromLTRB(25.0, 200.0, 25.0, 0.0),
           child: new Form(
             key: formKey,
             child: new Column(
@@ -97,6 +87,12 @@ class _LoginPageState extends State<LoginPage> {
 
     List<Widget> buildInputs(){
       return [
+          Image.asset(
+            'Assets/LOGO.png',
+            width: 200,
+            height: 100,
+            fit: BoxFit.contain,
+          ),
             // new Text("iLeftover", style: new TextStyle(
             //             color: Color(0xFF139427), 
             //             fontSize: 90.0,
@@ -178,7 +174,7 @@ class _LoginPageState extends State<LoginPage> {
     return new Row(
       children: <Widget>[
         new Container(
-          padding: EdgeInsets.only(left: 60.0, top: 25.0),
+          padding: EdgeInsets.only(left: 40.0, top: 20.0),
           alignment: Alignment.center,
           child: new OutlineButton(
             splashColor: Colors.green,
