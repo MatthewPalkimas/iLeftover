@@ -82,7 +82,7 @@ class _HomePageState extends State<HomePage>{
                                       new Icon(
                                       Icons.local_offer,
                                       color: Colors.white,
-                                      size: 70.0
+                                      size: 50.0
                                       ),
                                       new Text(
                                         'Donate',
@@ -96,7 +96,7 @@ class _HomePageState extends State<HomePage>{
                                     fillColor: Color(0xFF7180A9),
                                     padding: const EdgeInsets.all(15.0),
                                   ),
-                                  Padding(padding: EdgeInsets.only(top: 30.0)),
+                                  Padding(padding: EdgeInsets.only(top: 50.0)),
                                   new RawMaterialButton(
                                     child: new Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -104,7 +104,7 @@ class _HomePageState extends State<HomePage>{
                                       new Icon(
                                       Icons.fastfood,
                                       color: Colors.white,
-                                      size: 70.0
+                                      size: 50.0
                                       ),
                                       new Text(
                                         'Yoink',
@@ -118,7 +118,7 @@ class _HomePageState extends State<HomePage>{
                                     fillColor: Color(0xFFCAE1FF),
                                     padding: const EdgeInsets.all(15.0),
                                   ),
-                                  Padding(padding: EdgeInsets.only(top: 30.0)),
+                                  Padding(padding: EdgeInsets.only(top: 50.0)),
                                   new RawMaterialButton(
                                     child: new Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -126,7 +126,7 @@ class _HomePageState extends State<HomePage>{
                                       new Icon(
                                       Icons.drive_eta,
                                       color: Colors.white,
-                                      size: 70.0
+                                      size: 50.0
                                       ),
                                       new Text(
                                         'Explore',
@@ -140,7 +140,7 @@ class _HomePageState extends State<HomePage>{
                                     fillColor: Color(0xFF84D9FF),
                                     padding: const EdgeInsets.all(15.0),
                                   ),
-                                  Padding(padding: EdgeInsets.only(top: 60.0)),
+                                  Padding(padding: EdgeInsets.only(top: 20.0)),
                                   new RawMaterialButton(
                                     child: new Icon(
                                       Icons.add,
