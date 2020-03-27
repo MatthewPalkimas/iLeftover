@@ -174,7 +174,7 @@ class _LoginPageState extends State<LoginPage> {
     return new Row(
       children: <Widget>[
         new Container(
-          padding: EdgeInsets.only(left: 60.0, top: 20.0),
+          padding: EdgeInsets.only(left: 40.0, top: 20.0),
           alignment: Alignment.center,
           child: new OutlineButton(
             splashColor: Colors.green,

@@ -140,7 +140,7 @@ class _HomePageState extends State<HomePage>{
                                     fillColor: Color(0xFF84D9FF),
                                     padding: const EdgeInsets.all(15.0),
                                   ),
-                                  Padding(padding: EdgeInsets.only(top: 20.0)),
+                                  Padding(padding: EdgeInsets.only(top: 60.0)),
                                   new RawMaterialButton(
                                     child: new Icon(
                                       Icons.add,
