@@ -53,9 +53,7 @@ class _HomePageState extends State<HomePage>{
             ],
           ),
           body: new Container(
-            decoration: BoxDecoration(
-             
-            ),
+            
             child: new Container(
               child: Column(
                 children: <Widget>[
@@ -63,11 +61,11 @@ class _HomePageState extends State<HomePage>{
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Image.asset(
-                        'Assets/LOGO.png',
-                        width: 300,
-                        height: 150,
-                        fit: BoxFit.contain,
-                          ),
+                      'Assets/LOGO.png',
+                      width: 300,
+                      height: 150,
+                      fit: BoxFit.contain,
+                    ),
                     ],
                   ),
                   new Stack(
@@ -79,7 +77,7 @@ class _HomePageState extends State<HomePage>{
                         width: 80.0,
                         decoration: new BoxDecoration(
                           borderRadius: new BorderRadius.circular(80.0),
-                          color: Color(0xFF139427)
+                          color: Color(0xFF779ecb)
                         ),
                         child: new Icon(Icons.local_offer,color: Colors.white,),
                       ),
@@ -89,7 +87,7 @@ class _HomePageState extends State<HomePage>{
                         width: 80.0,
                         decoration: new BoxDecoration(
                           borderRadius: new BorderRadius.circular(80.0),
-                          color: Color(0xFF0394fc)
+                          color: Color(0xFFCAE1FF)
                         ),
                         child: new Icon(Icons.fastfood,color: Colors.white,),
                       ),
@@ -99,7 +97,7 @@ class _HomePageState extends State<HomePage>{
                         width: 80.0,
                         decoration: new BoxDecoration(
                           borderRadius: new BorderRadius.circular(80.0),
-                          color: Color(0xFFFF0000)
+                          color: Color(0xFF84d9ff)
                         ),
                         child: new Icon(Icons.home,color: Colors.white,),
                       ),
@@ -109,7 +107,7 @@ class _HomePageState extends State<HomePage>{
                         width: 80.0,
                         decoration: new BoxDecoration(
                           borderRadius: new BorderRadius.circular(80.0),
-                          color: Color(0xFFFCAD03)
+                          color: Color(0xFF7180a9)
                         ),
                         child: new Icon(Icons.directions_car,color: Colors.white,),
                       ),
