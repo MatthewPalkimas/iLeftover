@@ -39,7 +39,7 @@ class _Page2PageState extends State<Page2>{
               )
             ],
           ),
-          body:StreamBuilder(
+          body: StreamBuilder(
             stream: Firestore.instance.collection("food").snapshots(),
             builder: (context,snapshot) {
               if(!snapshot.hasData) 
