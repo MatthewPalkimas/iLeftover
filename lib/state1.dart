@@ -28,12 +28,8 @@ class _Page1PageState extends State<Page1>{
     Widget build(BuildContext context)
     {
       return new Scaffold(
-          appBar: AppBar(
-            backgroundColor: Color(0xFF139427),
-             title: Text(
-               'Donate Food',
-                style: TextStyle(color: Colors.white),
-               ),
+          appBar: new AppBar(
+            backgroundColor: Color(0xFFCAE1FF),
             actions: <Widget>[
             new FlatButton(
                 child: new Text('Back', style: new TextStyle(fontSize: 17.0, color: Colors.white),),

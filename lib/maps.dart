@@ -92,7 +92,7 @@ class _Page3PageState extends State<Page3> {
       home: Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
-          backgroundColor: Color(0xFF139427),
+          backgroundColor: Color(0xFFC4CACF),
             actions: <Widget>[
             new FlatButton(
                 child: new Text('Back', style: new TextStyle(fontSize: 17.0, color: Colors.white),),

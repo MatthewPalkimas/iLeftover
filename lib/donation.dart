@@ -3,6 +3,7 @@ import 'auth.dart';
 import 'state1.dart';
 import 'state2.dart';
 import 'maps.dart';
+import 'statement.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({this.auth, this.onSignedOut});
@@ -45,7 +46,7 @@ class _HomePageState extends State<HomePage>{
         return new Scaffold(
           appBar: new AppBar(
             // backgroundColor: Color(0xFFC4CACF),
-            backgroundColor: Color(0xFF139427),
+            backgroundColor: Color(0xFFCAE1FF),
             actions: <Widget>[
             new FlatButton(
                 child: new Text('Logout', style: new TextStyle(fontSize: 17.0, color: Colors.white)),
@@ -54,9 +55,7 @@ class _HomePageState extends State<HomePage>{
             ],
           ),
           body: new Container(
-            decoration: BoxDecoration(
-             
-            ),
+            
             child: new Container(
               child: Column(
                 children: <Widget>[
@@ -64,14 +63,14 @@ class _HomePageState extends State<HomePage>{
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Image.asset(
-                        'Assets/LOGO.png',
-                        width: 350,
-                        height: 175,
-                        fit: BoxFit.contain,
-                          ),
+                      'Assets/LOGO.png',
+                      width: 300,
+                      height: 150,
+                      fit: BoxFit.contain,
+                    ),
                     ],
                   ),
-                  new Container(
+                    new Container(
                         child: Center(
                             child: new Column(
                               children: <Widget>[
@@ -94,7 +93,7 @@ class _HomePageState extends State<HomePage>{
                                     onPressed: () => changePage(1),
                                     shape: new RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
                                     elevation: 2.0,
-                                    fillColor: Color(0xFF139427),
+                                    fillColor: Color(0xFF7180A9),
                                     padding: const EdgeInsets.all(15.0),
                                   ),
                                   Padding(padding: EdgeInsets.only(top: 30.0)),
@@ -116,7 +115,7 @@ class _HomePageState extends State<HomePage>{
                                     onPressed: () => changePage(2),
                                     shape: new RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
                                     elevation: 2.0,
-                                    fillColor: Color(0xFFFF0000),
+                                    fillColor: Color(0xFFCAE1FF),
                                     padding: const EdgeInsets.all(15.0),
                                   ),
                                   Padding(padding: EdgeInsets.only(top: 30.0)),
@@ -138,9 +137,22 @@ class _HomePageState extends State<HomePage>{
                                     onPressed: () => changePage(3),
                                     shape: new RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
                                     elevation: 2.0,
-                                    fillColor: Color(0xFFFCAD03),
+                                    fillColor: Color(0xFF84D9FF),
                                     padding: const EdgeInsets.all(15.0),
                                   ),
+                                  Padding(padding: EdgeInsets.only(top: 60.0)),
+                                  new RawMaterialButton(
+                                    child: new Icon(
+                                      Icons.add,
+                                      color: Colors.white,
+                                      size: 35.0
+                                    ),
+                                    onPressed: () => changePage(4),
+                                    shape: new CircleBorder(),
+                                    elevation: 2.0,
+                                    fillColor: Color(0xFF98B4D4),
+                                    padding: const EdgeInsets.all(15.0),
+                                  )
                                 ],
                               )
                           ),
@@ -167,6 +179,12 @@ class _HomePageState extends State<HomePage>{
          auth: widget.auth,
          onSignedOut: widget._signOut,
          goBack: defaultPage     
+      );
+      case 4:
+        return new Page4(
+          auth: widget.auth,
+          onSignedOut: widget._signOut,
+          goBack: defaultPage
       );
     }
   }
