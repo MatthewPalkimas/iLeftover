@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'auth.dart';
 
@@ -54,22 +55,22 @@ class _Page1PageState extends State<Page1>{
                       decoration: InputDecoration(
                         labelText: 'Name of your food: '
                       ),
-                      validator: (input) => input.length < 8 ? 'You need at least 8 characters' : null,
-                      onSaved: (input) => _name,
+                      validator: (input) => input.length < 4 ? 'You need at least 4 characters' : null,
+                      onSaved: (input) => _name = input,
                     ),
                     TextFormField(
                       decoration: InputDecoration(
                         labelText: 'Description: '
                       ),
-                      validator: (input) => input.length < 8 ? 'You need at least 8 characters' : null,
-                      onSaved: (input) => _description,
+                      validator: (input) => input.length < 4 ? 'You need at least 4 characters' : null,
+                      onSaved: (input) => _description = input,
                     ),
                     TextFormField(
                       decoration: InputDecoration(
                         labelText: 'ImageURL: '
                       ),
-                      validator: (input) => input.length < 8 ? 'You need at least 8 characters' : null,
-                      onSaved: (input) => _imageurl
+                      validator: (input) => input.length < 4 ? 'You need at least 4 characters' : null,
+                      onSaved: (input) => _imageurl = input,
                     ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -95,6 +96,13 @@ class _Page1PageState extends State<Page1>{
      void _submit(){
     if(formKey.currentState.validate()){
       formKey.currentState.save();
+      Firestore.instance.collection('food').add(
+        {
+          "Name" : _name,
+          "Description" : _description,
+          "Image" : _imageurl,
+        }
+      );
     }
   }
 }
