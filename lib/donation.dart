@@ -3,6 +3,7 @@ import 'auth.dart';
 import 'state1.dart';
 import 'state2.dart';
 import 'maps.dart';
+import 'statement.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({this.auth, this.onSignedOut});
@@ -44,7 +45,8 @@ class _HomePageState extends State<HomePage>{
       case 0:
         return new Scaffold(
           appBar: new AppBar(
-            backgroundColor: Color(0xFFC4CACF),
+            // backgroundColor: Color(0xFFC4CACF),
+            backgroundColor: Color(0xFFCAE1FF),
             actions: <Widget>[
             new FlatButton(
                 child: new Text('Logout', style: new TextStyle(fontSize: 17.0, color: Colors.white)),
@@ -68,74 +70,89 @@ class _HomePageState extends State<HomePage>{
                     ),
                     ],
                   ),
-                  new Stack(
-                    alignment: Alignment.topCenter,
-                    children: <Widget>[
-                      new Container(
-                        margin: new EdgeInsets.only(top:30.0),
-                        height: 80.0,
-                        width: 80.0,
-                        decoration: new BoxDecoration(
-                          borderRadius: new BorderRadius.circular(80.0),
-                          color: Color(0xFF779ecb)
-                        ),
-                        child: new Icon(Icons.local_offer,color: Colors.white,),
-                      ),
-                      new Container(
-                        margin: new EdgeInsets.only(top:150.0),
-                        height: 80.0,
-                        width: 80.0,
-                        decoration: new BoxDecoration(
-                          borderRadius: new BorderRadius.circular(80.0),
-                          color: Color(0xFFCAE1FF)
-                        ),
-                        child: new Icon(Icons.fastfood,color: Colors.white,),
-                      ),
-                      new Container(
-                        margin: new EdgeInsets.only(right: 110.0, top:90.0),
-                        height: 80.0,
-                        width: 80.0,
-                        decoration: new BoxDecoration(
-                          borderRadius: new BorderRadius.circular(80.0),
-                          color: Color(0xFF84d9ff)
-                        ),
-                        child: new Icon(Icons.home,color: Colors.white,),
-                      ),
-                      new Container(
-                        margin: new EdgeInsets.only(left: 110.0, top:90.0),
-                        height: 80.0,
-                        width: 80.0,
-                        decoration: new BoxDecoration(
-                          borderRadius: new BorderRadius.circular(80.0),
-                          color: Color(0xFF7180a9)
-                        ),
-                        child: new Icon(Icons.directions_car,color: Colors.white,),
-                      ),
-                    ],
-                  ),
-                  new Container(
+                    new Container(
                         child: Center(
                             child: new Column(
                               children: <Widget>[
-                                new Padding(padding: EdgeInsets.only(top: 60.0)),
-                                  new RaisedButton(
-                                    child: new Text('Donation Page', style: new TextStyle(fontSize: 20.0)),
+                                new Padding(padding: EdgeInsets.only(top: 10.0)),
+                                  new RawMaterialButton(
+                                    child: new Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      children: <Widget>[
+                                      new Icon(
+                                      Icons.local_offer,
+                                      color: Colors.white,
+                                      size: 70.0
+                                      ),
+                                      new Text(
+                                        'Donate',
+                                        style: TextStyle(fontSize: 40, color: Colors.black)
+                                      ),
+                                    ]
+                                    ),
                                     onPressed: () => changePage(1),
-                                    textColor: Colors.white,
-                                    color: Color(0xFF139427),
+                                    shape: new RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+                                    elevation: 2.0,
+                                    fillColor: Color(0xFF7180A9),
+                                    padding: const EdgeInsets.all(15.0),
                                   ),
-                                  new RaisedButton(
-                                    child: new Text('Yoink Page', style: new TextStyle(fontSize: 20.0)),
+                                  Padding(padding: EdgeInsets.only(top: 30.0)),
+                                  new RawMaterialButton(
+                                    child: new Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      children: <Widget>[
+                                      new Icon(
+                                      Icons.fastfood,
+                                      color: Colors.white,
+                                      size: 70.0
+                                      ),
+                                      new Text(
+                                        'Yoink',
+                                        style: TextStyle(fontSize: 40, color: Colors.black)
+                                      ),
+                                    ]
+                                    ),
                                     onPressed: () => changePage(2),
-                                    textColor: Colors.white,
-                                    color: Color(0xFFFF0000)
+                                    shape: new RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+                                    elevation: 2.0,
+                                    fillColor: Color(0xFFCAE1FF),
+                                    padding: const EdgeInsets.all(15.0),
                                   ),
-                                  new RaisedButton(
-                                    child: new Text('Maps Page', style: new TextStyle(fontSize: 20.0)),
+                                  Padding(padding: EdgeInsets.only(top: 30.0)),
+                                  new RawMaterialButton(
+                                    child: new Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      children: <Widget>[
+                                      new Icon(
+                                      Icons.drive_eta,
+                                      color: Colors.white,
+                                      size: 70.0
+                                      ),
+                                      new Text(
+                                        'Explore',
+                                        style: TextStyle(fontSize: 40, color: Colors.black)
+                                      ),
+                                    ]
+                                    ),
                                     onPressed: () => changePage(3),
-                                    textColor: Colors.white,
-                                    color: Color(0xFFFCAD03)
+                                    shape: new RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+                                    elevation: 2.0,
+                                    fillColor: Color(0xFF84D9FF),
+                                    padding: const EdgeInsets.all(15.0),
                                   ),
+                                  Padding(padding: EdgeInsets.only(top: 60.0)),
+                                  new RawMaterialButton(
+                                    child: new Icon(
+                                      Icons.add,
+                                      color: Colors.white,
+                                      size: 35.0
+                                    ),
+                                    onPressed: () => changePage(4),
+                                    shape: new CircleBorder(),
+                                    elevation: 2.0,
+                                    fillColor: Color(0xFF98B4D4),
+                                    padding: const EdgeInsets.all(15.0),
+                                  )
                                 ],
                               )
                           ),
@@ -162,6 +179,12 @@ class _HomePageState extends State<HomePage>{
          auth: widget.auth,
          onSignedOut: widget._signOut,
          goBack: defaultPage     
+      );
+      case 4:
+        return new Page4(
+          auth: widget.auth,
+          onSignedOut: widget._signOut,
+          goBack: defaultPage
       );
     }
   }
