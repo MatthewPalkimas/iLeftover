@@ -20,6 +20,7 @@ class Page1 extends StatefulWidget {
 }
 
 class _Page1PageState extends State<Page1>{
+  String _name, _description, _imageurl;
 
   @override
     Widget build(BuildContext context)
@@ -39,27 +40,46 @@ class _Page1PageState extends State<Page1>{
               )
             ],
           ),
-          body: new Container(
-            decoration: BoxDecoration(
-             
-            ),
-            child: new Container(
-              child: new Center(
-                child: new Column(
-                  children: <Widget>[
-                    new Padding(padding: EdgeInsets.only(top: 140.0)),
-                      new Text(
-                         'Donation Page',
-                          style: new TextStyle(color: Colors.green, fontSize: 25.0),
+          body: Card(
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Form(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget> [
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Name of your food: '
                       ),
-                      new Padding(
-                         padding: EdgeInsets.only(top: 50.0)
+                      validator: (input) => input.length < 8 ? 'You need at least 8 characters' : null,
+                      onSaved: (input) => _name,
+                    ),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Description: '
                       ),
-                    ],
-                  )
-              ),
+                      validator: (input) => input.length < 8 ? 'You need at least 8 characters' : null,
+                      onSaved: (input) => _description,
+                    ),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'ImageURL: '
+                      ),
+                      validator: (input) => input.length < 8 ? 'You need at least 8 characters' : null,
+                      onSaved: (input) => _imageurl
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Padding(padding: null)
+                      ],
+                    )
+                  ]
+                )
+              )
             )
-          ),
+          )
       );
     }
 }
