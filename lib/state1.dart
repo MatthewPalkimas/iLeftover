@@ -21,6 +21,8 @@ class Page1 extends StatefulWidget {
 
 class _Page1PageState extends State<Page1>{
   String _name, _description, _imageurl;
+   final formKey = GlobalKey<FormState>();
+
 
   @override
     Widget build(BuildContext context)
@@ -48,6 +50,7 @@ class _Page1PageState extends State<Page1>{
             child: Padding(
               padding: EdgeInsets.all(8.0),
               child: Form(
+                key: formKey,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget> [
@@ -76,7 +79,13 @@ class _Page1PageState extends State<Page1>{
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        Padding(padding: null)
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: RaisedButton(
+                            onPressed: _submit,
+                            child: Text('Submit'),
+                            ),
+                          )
                       ],
                     )
                   ]
@@ -86,4 +95,10 @@ class _Page1PageState extends State<Page1>{
           )
       );
     }
+
+     void _submit(){
+    if(formKey.currentState.validate()){
+      formKey.currentState.save();
+    }
+  }
 }
