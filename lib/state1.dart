@@ -27,18 +27,28 @@ class Page1 extends StatefulWidget {
 class _Page1PageState extends State<Page1>{
   String _name, _description, _imageurl;
   File _storedImage;
+  TextEditingController _textFieldController1 = TextEditingController();
+  TextEditingController _textFieldController2 = TextEditingController();
   final formKey = GlobalKey<FormState>();
+
+
    Future <void> _takePicture(BuildContext context) async {
      final imageFile = await ImagePicker.pickImage(
        source: ImageSource.camera,
        );
-
-       setState(() {
-     _storedImage = imageFile;
-   });
-   _uploadImage(context);
+     setState(() {
+      _storedImage = imageFile;
+      });
+      _uploadImage(context);
    }
    
+   void  _onClear() {
+    setState(() {
+      _textFieldController1.clear();
+      _textFieldController2.clear();
+      _storedImage = null;
+    });
+  }
    
 
 
@@ -95,16 +105,16 @@ class _Page1PageState extends State<Page1>{
                           
                            
                       TextField(
+                        controller: _textFieldController1,
                         decoration: InputDecoration(
                           labelText: 'Food Name: ',  
                         ),
-                        onChanged: (text){_name=text;},
                       ),
                       TextField(
+                        controller: _textFieldController2,
                         decoration: InputDecoration(
                           labelText: 'Description: ',
                         ),
-                        onChanged: (text){_description=text;},
                       ),
                        Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -130,13 +140,47 @@ class _Page1PageState extends State<Page1>{
       );
     }
 
-     void _submit(BuildContext context) async{
+     void _submitconfirm(BuildContext context) async{
       Firestore.instance.collection('food').add(
         {
           "Name" : _name,
           "Description" : _description,
           "Image" : _imageurl,
         }
+      );
+     }
+      Future <void> _submit(BuildContext context) async{
+        _name = _textFieldController1.text;
+        _description = _textFieldController2.text;
+      showDialog(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context){
+          return AlertDialog(
+            backgroundColor: Color(0xFFCAE1FF),
+            title: Text('Confirm Submission?', textAlign: TextAlign.center,),
+            content: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                FloatingActionButton(
+                  child: Text('Yes'),
+                  backgroundColor: Colors.green[100],
+                  onPressed:(){ 
+                    _submitconfirm(context);
+                    Navigator.of(context).pop();
+                    _onClear();
+                    }
+                  ),
+                FloatingActionButton(
+                  child: Text('No'),
+                  backgroundColor: Colors.red[100],
+                  onPressed:(){ Navigator.of(context).pop();}
+                  ),
+              ],
+            ),
+          );
+
+        },
       );
     }
 
