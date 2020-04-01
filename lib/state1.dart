@@ -1,6 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'auth.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path/path.dart';
 
 class Page1 extends StatefulWidget {
   Page1({this.auth, this.onSignedOut, this.goBack});
@@ -22,7 +26,20 @@ class Page1 extends StatefulWidget {
 
 class _Page1PageState extends State<Page1>{
   String _name, _description, _imageurl;
-   final formKey = GlobalKey<FormState>();
+  File _storedImage;
+  final formKey = GlobalKey<FormState>();
+   Future <void> _takePicture(BuildContext context) async {
+     final imageFile = await ImagePicker.pickImage(
+       source: ImageSource.camera,
+       );
+
+       setState(() {
+     _storedImage = imageFile;
+   });
+   _uploadImage(context);
+   }
+   
+   
 
 
   @override
@@ -43,59 +60,77 @@ class _Page1PageState extends State<Page1>{
               )
             ],
           ),
-          body: Card(
-            child: Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Form(
-                key: formKey,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget> [
-                    TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Name of your food: '
+          body: Column(
+            children: <Widget>[
+              SizedBox(width:10, height:10),
+              Padding(
+                padding: EdgeInsets.all(10.0),
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget> [
+                       Container(
+                        width: 200,
+                        height: 200,
+                        decoration: BoxDecoration(
+                          border: Border.all(width:1, color: Colors.black),
+                        ),
+                        child: _storedImage != null
+                        ? Image.file(
+                          _storedImage,
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                        )
+                        : Text('No Image Selected', textAlign: TextAlign.center,),
+                        alignment: Alignment.center,
                       ),
-                      validator: (input) => input.length < 4 ? 'You need at least 4 characters' : null,
-                      onSaved: (input) => _name = input,
-                    ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Description: '
+                    
+                        FlatButton.icon(
+                          icon: Icon(Icons.camera), 
+                          label: Text('Take Picture'),
+                          textColor: Theme.of(context).primaryColor,
+                          onPressed:(){ _takePicture(context);} ,
+                          ),
+                          
+                           
+                      TextField(
+                        decoration: InputDecoration(
+                          labelText: 'Food Name: ',  
+                        ),
+                        onChanged: (text){_name=text;},
                       ),
-                      validator: (input) => input.length < 4 ? 'You need at least 4 characters' : null,
-                      onSaved: (input) => _description = input,
-                    ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'ImageURL: '
+                      TextField(
+                        decoration: InputDecoration(
+                          labelText: 'Description: ',
+                        ),
+                        onChanged: (text){_description=text;},
                       ),
-                      validator: (input) => input.length < 4 ? 'You need at least 4 characters' : null,
-                      onSaved: (input) => _imageurl = input,
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: RaisedButton(
-                            onPressed: _submit,
-                            child: Text('Submit'),
-                            ),
-                          )
-                      ],
-                    )
-                  ]
+                       Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: RaisedButton(
+                              onPressed: (){
+                                _submit(context);
+                              },
+                              child: Text('Submit'),
+                              ),
+                            )
+                        ],
+                      )
+                    ]
+                  )
                 )
-              )
-            )
+              ),
+            ],
           )
       );
     }
 
-     void _submit(){
-    if(formKey.currentState.validate()){
-      formKey.currentState.save();
+     void _submit(BuildContext context) async{
       Firestore.instance.collection('food').add(
         {
           "Name" : _name,
@@ -104,5 +139,14 @@ class _Page1PageState extends State<Page1>{
         }
       );
     }
-  }
+
+  Future <void> _uploadImage(BuildContext context) async {
+   String filName = basename(_storedImage.path);
+   final StorageReference ref = FirebaseStorage.instance.ref().child(filName);
+   final StorageUploadTask uploadTask = ref.putFile(_storedImage);
+   var dowurl = await (await uploadTask.onComplete).ref.getDownloadURL();
+    _imageurl = dowurl.toString();
+    print(_imageurl);
+   } 
+
 }
