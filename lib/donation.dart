@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'auth.dart';
-import 'state1.dart';
-import 'state2.dart';
-import 'maps.dart';
+import 'profile.dart';
 import 'statement.dart';
+import 'home.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({this.auth, this.onSignedOut});
@@ -29,6 +28,8 @@ class _HomePageState extends State<HomePage>{
 
   void changePage(int pageNum) {
     setState(() {
+      if (pageNum == 0)
+        HomePage2.goHome();
       pageNumber = pageNum;
     });
   }
@@ -41,151 +42,42 @@ class _HomePageState extends State<HomePage>{
 
   @override 
   Widget build(BuildContext context){
-    switch(pageNumber){
-      case 0:
-        return new Scaffold(
-          appBar: new AppBar(
-            // backgroundColor: Color(0xFFC4CACF),
-            backgroundColor: Color(0xFFCAE1FF),
-            actions: <Widget>[
-            new FlatButton(
-                child: new Text('Logout', style: new TextStyle(fontSize: 17.0, color: Colors.white)),
-                onPressed: widget._signOut
-              )
-            ],
-          ),
-          body: new Container(
-            
-            child: new Container(
-              child: Column(
-                children: <Widget>[
-                  new Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Image.asset(
-                      'Assets/LOGO.png',
-                      width: 300,
-                      height: 150,
-                      fit: BoxFit.contain,
-                    ),
-                    ],
-                  ),
-                    new Container(
-                        child: Center(
-                            child: new Column(
-                              children: <Widget>[
-                                new Padding(padding: EdgeInsets.only(top: 10.0)),
-                                  new RawMaterialButton(
-                                    child: new Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                      children: <Widget>[
-                                      new Icon(
-                                      Icons.local_offer,
-                                      color: Colors.white,
-                                      size: 50.0
-                                      ),
-                                      new Text(
-                                        'Donate',
-                                        style: TextStyle(fontSize: 40, color: Colors.black)
-                                      ),
-                                    ]
-                                    ),
-                                    onPressed: () => changePage(1),
-                                    shape: new RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-                                    elevation: 2.0,
-                                    fillColor: Color(0xFF7180A9),
-                                    padding: const EdgeInsets.all(15.0),
-                                  ),
-                                  Padding(padding: EdgeInsets.only(top: 50.0)),
-                                  new RawMaterialButton(
-                                    child: new Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                      children: <Widget>[
-                                      new Icon(
-                                      Icons.fastfood,
-                                      color: Colors.white,
-                                      size: 50.0
-                                      ),
-                                      new Text(
-                                        'Yoink',
-                                        style: TextStyle(fontSize: 40, color: Colors.black)
-                                      ),
-                                    ]
-                                    ),
-                                    onPressed: () => changePage(2),
-                                    shape: new RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-                                    elevation: 2.0,
-                                    fillColor: Color(0xFFCAE1FF),
-                                    padding: const EdgeInsets.all(15.0),
-                                  ),
-                                  Padding(padding: EdgeInsets.only(top: 50.0)),
-                                  new RawMaterialButton(
-                                    child: new Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                      children: <Widget>[
-                                      new Icon(
-                                      Icons.drive_eta,
-                                      color: Colors.white,
-                                      size: 50.0
-                                      ),
-                                      new Text(
-                                        'Explore',
-                                        style: TextStyle(fontSize: 40, color: Colors.black)
-                                      ),
-                                    ]
-                                    ),
-                                    onPressed: () => changePage(3),
-                                    shape: new RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-                                    elevation: 2.0,
-                                    fillColor: Color(0xFF84D9FF),
-                                    padding: const EdgeInsets.all(15.0),
-                                  ),
-                                  Padding(padding: EdgeInsets.only(top: 20.0)),
-                                  new RawMaterialButton(
-                                    child: new Icon(
-                                      Icons.add,
-                                      color: Colors.white,
-                                      size: 35.0
-                                    ),
-                                    onPressed: () => changePage(4),
-                                    shape: new CircleBorder(),
-                                    elevation: 2.0,
-                                    fillColor: Color(0xFF98B4D4),
-                                    padding: const EdgeInsets.all(15.0),
-                                  )
-                                ],
-                              )
-                          ),
-                      ),
-                ],
-              )
-            ),
-          ),
-        );
-      case 1:
-       return new Page1(
-         auth: widget.auth,
-         onSignedOut: widget._signOut,
-         goBack: defaultPage
-      );
-      case 2:
-       return new Page2(
-         auth: widget.auth,
-         onSignedOut: widget._signOut,
-         goBack: defaultPage
-      );
-      case 3:
-       return new Page3(
-         auth: widget.auth,
-         onSignedOut: widget._signOut,
-         goBack: defaultPage     
-      );
-      case 4:
-        return new Page4(
+    List<Widget> _children = [
+        HomePage2(
           auth: widget.auth,
           onSignedOut: widget._signOut,
-          goBack: defaultPage
-      );
+        ),
+        ProfilePage(
+            auth: widget.auth,
+            onSignedOut: widget._signOut,
+            goBack: defaultPage
+        ),
+        Page4(
+            auth: widget.auth,
+            onSignedOut: widget._signOut,
+            goBack: defaultPage
+          ),
+      ];
+      return new Scaffold(
+          body: _children[pageNumber],
+          bottomNavigationBar: new BottomNavigationBar(
+            onTap: changePage,
+            currentIndex: pageNumber,
+            items: [
+              BottomNavigationBarItem(
+                icon: new Icon(Icons.home),
+                title: new Text('Home'),
+                ),
+              BottomNavigationBarItem(
+                icon: new Icon(Icons.person),
+                title: new Text('Profile'),
+                ),
+              BottomNavigationBarItem(
+                icon: new Icon(Icons.satellite),
+                title: new Text('About Us'),
+              ),
+             ],
+          ),
+        );
     }
   }
-}
