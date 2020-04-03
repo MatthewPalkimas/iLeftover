@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart';
+import 'package:flutter/src/material/dropdown.dart';
 
 class Page1 extends StatefulWidget {
   Page1({this.auth, this.onSignedOut, this.goBack});
@@ -27,9 +28,26 @@ class Page1 extends StatefulWidget {
 class _Page1PageState extends State<Page1>{
   String _name, _description, _imageurl;
   File _storedImage;
+  var _foodcategory;
   TextEditingController _textFieldController1 = TextEditingController();
   TextEditingController _textFieldController2 = TextEditingController();
   final formKey = GlobalKey<FormState>();
+  List <String> _foodcategorylist = <String> [
+    'bread',
+    'Cereal',
+    'rice',
+    'pasta',
+    'grains',
+    'taco',
+    'burrito',
+    'milk',
+    'cheese',
+    'chicken',
+    'beef',
+    'pork',
+    'fish',
+  ];
+
 
 
    Future <void> _takePicture(BuildContext context) async {
@@ -47,6 +65,7 @@ class _Page1PageState extends State<Page1>{
       _textFieldController1.clear();
       _textFieldController2.clear();
       _storedImage = null;
+      _foodcategory = null;
     });
   }
    
@@ -78,11 +97,11 @@ class _Page1PageState extends State<Page1>{
                 child: Form(
                   key: formKey,
                   child: Column(
-                    mainAxisSize: MainAxisSize.min,
+                   // mainAxisSize: MainAxisSize.min,
                     children: <Widget> [
                        Container(
-                        width: 200,
-                        height: 200,
+                        width: 150,
+                        height: 150,
                         decoration: BoxDecoration(
                           border: Border.all(width:1, color: Colors.black),
                         ),
@@ -103,34 +122,47 @@ class _Page1PageState extends State<Page1>{
                           onPressed:(){ _takePicture(context);} ,
                           ),
                           
-                           
+                        SizedBox(height:10,),
+                        DropdownButton(
+                            items: _foodcategorylist.map((value) => DropdownMenuItem(
+                            child: Text(
+                              value,
+                              style: TextStyle(color: Color(0xff11b719)),
+                            ),
+                            value: value,
+                          )).toList(), 
+                          onChanged: (selectedtype) {
+                            setState(() {
+                              _foodcategory = selectedtype;
+                            });
+                          },
+                          value: _foodcategory,
+                          isExpanded: false,
+                          hint: Text('Choose Food Category'),
+                          style: TextStyle(color: Color(0xff11b719)),
+                          ),     
                       TextField(
                         controller: _textFieldController1,
                         decoration: InputDecoration(
                           labelText: 'Food Name: ',  
                         ),
                       ),
+                    
                       TextField(
                         controller: _textFieldController2,
                         decoration: InputDecoration(
                           labelText: 'Description: ',
                         ),
                       ),
-                       Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: RaisedButton(
-                              onPressed: (){
-                                _submit(context);
-                              },
-                              child: Text('Submit'),
-                              ),
-                            )
-                        ],
-                      )
+                       Align(
+                         alignment: Alignment.bottomCenter,
+                           child: RaisedButton(
+                           onPressed: (){
+                             _submit(context);
+                           },
+                           child: Text('Submit'),
+                           ),
+                       )
                     ]
                   )
                 )
