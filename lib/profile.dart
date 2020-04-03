@@ -5,7 +5,6 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart';
-import 'package:flutter/src/material/dropdown.dart';
 
 class ProfilePage extends StatefulWidget {
   ProfilePage({this.auth, this.onSignedOut, this.goBack});
