@@ -1,6 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'auth.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path/path.dart';
+import 'package:flutter/src/material/dropdown.dart';
 
 class Page1 extends StatefulWidget {
   Page1({this.auth, this.onSignedOut, this.goBack});
@@ -22,7 +27,48 @@ class Page1 extends StatefulWidget {
 
 class _Page1PageState extends State<Page1>{
   String _name, _description, _imageurl;
-   final formKey = GlobalKey<FormState>();
+  File _storedImage;
+  var _foodcategory;
+  TextEditingController _textFieldController1 = TextEditingController();
+  TextEditingController _textFieldController2 = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+  List <String> _foodcategorylist = <String> [
+    'bread',
+    'Cereal',
+    'rice',
+    'pasta',
+    'grains',
+    'taco',
+    'burrito',
+    'milk',
+    'cheese',
+    'chicken',
+    'beef',
+    'pork',
+    'fish',
+  ];
+
+
+
+   Future <void> _takePicture(BuildContext context) async {
+     final imageFile = await ImagePicker.pickImage(
+       source: ImageSource.camera,
+       );
+     setState(() {
+      _storedImage = imageFile;
+      });
+      _uploadImage(context);
+   }
+   
+   void  _onClear() {
+    setState(() {
+      _textFieldController1.clear();
+      _textFieldController2.clear();
+      _storedImage = null;
+      _foodcategory = null;
+    });
+  }
+   
 
 
   @override
@@ -43,59 +89,90 @@ class _Page1PageState extends State<Page1>{
               )
             ],
           ),
-          body: Card(
-            child: Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Form(
-                key: formKey,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget> [
-                    TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Name of your food: '
+          body: Column(
+            children: <Widget>[
+              SizedBox(width:10, height:10),
+              Padding(
+                padding: EdgeInsets.all(10.0),
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                   // mainAxisSize: MainAxisSize.min,
+                    children: <Widget> [
+                       Container(
+                        width: 150,
+                        height: 150,
+                        decoration: BoxDecoration(
+                          border: Border.all(width:1, color: Colors.black),
+                        ),
+                        child: _storedImage != null
+                        ? Image.file(
+                          _storedImage,
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                        )
+                        : Text('No Image Selected', textAlign: TextAlign.center,),
+                        alignment: Alignment.center,
                       ),
-                      validator: (input) => input.length < 4 ? 'You need at least 4 characters' : null,
-                      onSaved: (input) => _name = input,
-                    ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Description: '
-                      ),
-                      validator: (input) => input.length < 4 ? 'You need at least 4 characters' : null,
-                      onSaved: (input) => _description = input,
-                    ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'ImageURL: '
-                      ),
-                      validator: (input) => input.length < 4 ? 'You need at least 4 characters' : null,
-                      onSaved: (input) => _imageurl = input,
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: RaisedButton(
-                            onPressed: _submit,
-                            child: Text('Submit'),
+                    
+                        FlatButton.icon(
+                          icon: Icon(Icons.camera), 
+                          label: Text('Take Picture'),
+                          textColor: Theme.of(context).primaryColor,
+                          onPressed:(){ _takePicture(context);} ,
+                          ),
+                          
+                        SizedBox(height:10,),
+                        DropdownButton(
+                            items: _foodcategorylist.map((value) => DropdownMenuItem(
+                            child: Text(
+                              value,
+                              style: TextStyle(color: Color(0xff11b719)),
                             ),
-                          )
-                      ],
-                    )
-                  ]
+                            value: value,
+                          )).toList(), 
+                          onChanged: (selectedtype) {
+                            setState(() {
+                              _foodcategory = selectedtype;
+                            });
+                          },
+                          value: _foodcategory,
+                          isExpanded: false,
+                          hint: Text('Choose Food Category'),
+                          style: TextStyle(color: Color(0xff11b719)),
+                          ),     
+                      TextField(
+                        controller: _textFieldController1,
+                        decoration: InputDecoration(
+                          labelText: 'Food Name: ',  
+                        ),
+                      ),
+                    
+                      TextField(
+                        controller: _textFieldController2,
+                        decoration: InputDecoration(
+                          labelText: 'Description: ',
+                        ),
+                      ),
+                       Align(
+                         alignment: Alignment.bottomCenter,
+                           child: RaisedButton(
+                           onPressed: (){
+                             _submit(context);
+                           },
+                           child: Text('Submit'),
+                           ),
+                       )
+                    ]
+                  )
                 )
-              )
-            )
+              ),
+            ],
           )
       );
     }
 
-     void _submit(){
-    if(formKey.currentState.validate()){
-      formKey.currentState.save();
+     void _submitconfirm(BuildContext context) async{
       Firestore.instance.collection('food').add(
         {
           "Name" : _name,
@@ -103,6 +180,49 @@ class _Page1PageState extends State<Page1>{
           "Image" : _imageurl,
         }
       );
+     }
+      Future <void> _submit(BuildContext context) async{
+        _name = _textFieldController1.text;
+        _description = _textFieldController2.text;
+      showDialog(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context){
+          return AlertDialog(
+            backgroundColor: Color(0xFFCAE1FF),
+            title: Text('Confirm Submission?', textAlign: TextAlign.center,),
+            content: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                FloatingActionButton(
+                  child: Text('Yes'),
+                  backgroundColor: Colors.green[100],
+                  onPressed:(){ 
+                    _submitconfirm(context);
+                    Navigator.of(context).pop();
+                    _onClear();
+                    }
+                  ),
+                FloatingActionButton(
+                  child: Text('No'),
+                  backgroundColor: Colors.red[100],
+                  onPressed:(){ Navigator.of(context).pop();}
+                  ),
+              ],
+            ),
+          );
+
+        },
+      );
     }
-  }
+
+  Future <void> _uploadImage(BuildContext context) async {
+   String filName = basename(_storedImage.path);
+   final StorageReference ref = FirebaseStorage.instance.ref().child(filName);
+   final StorageUploadTask uploadTask = ref.putFile(_storedImage);
+   var dowurl = await (await uploadTask.onComplete).ref.getDownloadURL();
+    _imageurl = dowurl.toString();
+    print(_imageurl);
+   } 
+
 }
