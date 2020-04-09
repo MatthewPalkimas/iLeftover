@@ -40,7 +40,7 @@ class _Page2PageState extends State<Page2>{
             ],
           ),
           body: StreamBuilder(
-            stream: Firestore.instance.collection("food").snapshots(),
+            stream: Firestore.instance.collection("foodnew").snapshots(),
             builder: (context,snapshot) {
               if(!snapshot.hasData) 
                 return Text('Loading data... Please wait...');

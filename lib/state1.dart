@@ -6,6 +6,8 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart';
 import 'package:flutter/src/material/dropdown.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
 
 class Page1 extends StatefulWidget {
   Page1({this.auth, this.onSignedOut, this.goBack});
@@ -29,6 +31,10 @@ class _Page1PageState extends State<Page1>{
   String _name, _description, _imageurl;
   File _storedImage;
   var _foodcategory;
+  double _latitude , _longitude;
+  Geoflutterfire geo = Geoflutterfire();
+  Position currentpos;
+  GeoFirePoint myLocation;
   TextEditingController _textFieldController1 = TextEditingController();
   TextEditingController _textFieldController2 = TextEditingController();
   final formKey = GlobalKey<FormState>();
@@ -54,6 +60,18 @@ class _Page1PageState extends State<Page1>{
      final imageFile = await ImagePicker.pickImage(
        source: ImageSource.camera,
        );
+       
+      final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
+      geolocator
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+        .then((Position position){
+          setState(() {
+            currentpos = position;
+            _latitude = currentpos.latitude;
+            _longitude = currentpos.longitude;
+             myLocation = geo.point(latitude: _latitude, longitude: _longitude);
+          });
+        });
      setState(() {
       _storedImage = imageFile;
       });
@@ -173,11 +191,13 @@ class _Page1PageState extends State<Page1>{
     }
 
      void _submitconfirm(BuildContext context) async{
-      Firestore.instance.collection('food').add(
+      Firestore.instance.collection('foodnew').add(
         {
           "Name" : _name,
           "Description" : _description,
           "Image" : _imageurl,
+          "Location" : myLocation.data,
+          "Time" : DateTime.now(),
         }
       );
      }
