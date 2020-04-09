@@ -1,0 +1,22 @@
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+
+class Food_data{
+String name;
+double latitude;
+double longitude;
+String imageurl;
+String description;
+DateTime time;
+String locality;
+String locality2;
+
+
+Food_data({this.name,this.latitude,this.longitude,this.description,this.imageurl,this.time,this.locality,this.locality2});
+
+}
+
+
+
+
+

@@ -197,6 +197,8 @@ class _Page1PageState extends State<Page1>{
           "Description" : _description,
           "Image" : _imageurl,
           "Location" : myLocation.data,
+          "latitude": _latitude,
+          'longitude': _longitude,
           "Time" : DateTime.now(),
         }
       );

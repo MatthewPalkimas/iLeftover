@@ -1,8 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:food_savior/coffee_model.dart';
-import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'auth.dart';
+import 'package:geolocator/geolocator.dart';
+import 'database_model.dart';
+import 'package:geocoder/geocoder.dart';
+import 'package:intl/intl.dart';
 
 
 class Page3 extends StatefulWidget {
@@ -28,25 +32,90 @@ class _Page3PageState extends State<Page3> {
   //
   GoogleMapController _controller;
   List<Marker> allMarkers = [];
+  List <Food_data> foodlist = [];
+  final Firestore db = Firestore.instance;
+  Position currentPosition;
+  double initlatitude = 15.7179;
+  double initlongitude = -80.2746;
+  
 
   PageController _pageController;
 
   int prevPage;
+
+  createmarkers(){
+    db.collection('foodnew').getDocuments().then((docs) {
+      if(docs.documents.isNotEmpty){
+        for(int i =0;i<docs.documents.length;i++){
+          allMarkers.add(Marker(
+            markerId: MarkerId(docs.documents[i]['Name']),
+            draggable: false,
+            infoWindow: InfoWindow(
+              title:docs.documents[i]['Name'],
+              snippet: docs.documents[i]['Description']
+              ),
+            position: LatLng(docs.documents[i]['latitude'], docs.documents[i]['longitude']),
+          ));
+          print(docs.documents[i]['latitude']);print('\n');
+          print(docs.documents[i]['longitude']);print('\n');
+          print('\nlmao\n');
+        }
+      }
+      else print('\ndocuments empty');
+    });
+  }
   
+  void getCurrentLocationandmovecam(Position currentPosition,BuildContext context) async {
+    currentPosition  = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+    setState(() {
+      initlatitude = currentPosition.latitude;
+      initlongitude = currentPosition.longitude;
+      print(initlatitude);
+      print('\n$initlongitude');
+    });
+     _controller.animateCamera(CameraUpdate.newCameraPosition(
+      CameraPosition(
+        target: LatLng(initlatitude, initlongitude),
+        zoom:14.0,
+        bearing:45.0,
+        tilt: 45.0)));
+  }
+
   @override
   void initState() {
-    super.initState();
-    coffeeShops.forEach((element) {
+    super.initState();  
+    createmarkers();
+   /* coffeeShops.forEach((element) {
       allMarkers.add(Marker(
           markerId: MarkerId(element.shopName), 
           draggable: false,
           infoWindow:
               InfoWindow(title: element.shopName, snippet: element.address),
           position: element.locationCoords));
-    });
+    });*/
     _pageController = PageController(initialPage: 1, viewportFraction: 0.8)
     ..addListener(_onScroll);
+    populatefoodlist();
   }
+
+  void populatefoodlist(){
+    db.collection('foodnew').getDocuments().then((docs) {
+      if(docs.documents.isNotEmpty){
+        for(int i =0;i<docs.documents.length;i++){
+          foodlist.add(Food_data(
+            name: docs.documents[i]['Name'],
+            description: docs.documents[i]['Description'],
+            imageurl: docs.documents[i]['Image'],
+            time: docs.documents[i]['Time'].toDate(),
+            latitude: docs.documents[i]['latitude'],
+            longitude: docs.documents[i]['longtitude'],
+          ));
+        }
+      }
+    });
+    }
+
+
 
   void _onScroll(){
     if(_pageController.page.toInt() != prevPage){
@@ -112,7 +181,7 @@ class _Page3PageState extends State<Page3> {
                           ),
                           image: DecorationImage(
                             image: NetworkImage(
-                              coffeeShops[index].thumbNail
+                              foodlist[index].imageurl
                             ),
                             fit: BoxFit.cover
                           )
@@ -121,16 +190,16 @@ class _Page3PageState extends State<Page3> {
                       SizedBox(width: 5.0),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
-                                  coffeeShops[index].shopName,
+                                  foodlist[index].name,
                                   style: TextStyle(
                                       fontSize: 12.5,
                                       fontWeight: FontWeight.bold),
                                 ),
                                 Text(
-                                  coffeeShops[index].address,
+                                  DateFormat('kk:mm EEE d MMM').format(foodlist[index].time),
                                   style: TextStyle(
                                       fontSize: 12.0,
                                       fontWeight: FontWeight.w600),
@@ -138,7 +207,7 @@ class _Page3PageState extends State<Page3> {
                                 Container(
                                   width: 170.0,
                                   child: Text(
-                                    coffeeShops[index].description,
+                                    foodlist[index].description,
                                     style: TextStyle(
                                         fontSize: 11.0,
                                         fontWeight: FontWeight.w300),
@@ -182,7 +251,7 @@ class _Page3PageState extends State<Page3> {
                 width: MediaQuery.of(context).size.width,
                 child: GoogleMap(
                   initialCameraPosition: CameraPosition(
-                    target: LatLng(25.7179,-80.2746),zoom: 12.0),
+                    target: LatLng(initlatitude,initlongitude),zoom: 12.0),
                     markers: Set.from(allMarkers),
                     onMapCreated: mapCreated,
                 ),
@@ -194,7 +263,7 @@ class _Page3PageState extends State<Page3> {
                   width: MediaQuery.of(context).size.width,
                   child: PageView.builder(
                     controller: _pageController,
-                    itemCount: coffeeShops.length,
+                    itemCount: foodlist.length,
                     itemBuilder: (BuildContext context, int index){
                       return _coffeeShopList(index);
                     },
@@ -202,7 +271,12 @@ class _Page3PageState extends State<Page3> {
                 ),
               )
           ],
-        )
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed:(){getCurrentLocationandmovecam(currentPosition,context);},
+          tooltip: 'Get Current location',
+          child: Icon(Icons.flag),
+          ),
       );
     }
   
