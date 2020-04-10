@@ -1,10 +1,12 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'auth.dart';
-import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:intl/intl.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+
 
 class ProfilePage extends StatefulWidget {
   ProfilePage({this.auth, this.onSignedOut, this.goBack});
@@ -25,42 +27,15 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePagePageState extends State<ProfilePage>{
-  String _name, _description, _imageurl;
   File _storedImage;
-  var _foodcategory;
-  TextEditingController _textFieldController1 = TextEditingController();
-  TextEditingController _textFieldController2 = TextEditingController();
-  TextEditingController _textFieldController3 = TextEditingController();
-  final formKey = GlobalKey<FormState>();
-
-
-
-
-   Future <void> _takePicture(BuildContext context) async {
-     final imageFile = await ImagePicker.pickImage(
-       source: ImageSource.camera,
-       );
-     setState(() {
-      _storedImage = imageFile;
-      });
-      _uploadImage(context);
-   }
-   
-   void  _onClear() {
-    setState(() {
-      _textFieldController1.clear();
-      _textFieldController2.clear();
-      _storedImage = null;
-    });
-  }
-   
-
-
+  String _imageURL;
+  final _formKey = GlobalKey<FormState>();
   @override
-    Widget build(BuildContext context)
-    {
-      return new Scaffold(
-          appBar: new AppBar(
+  Widget build(BuildContext context)
+  {
+    return Scaffold (
+      resizeToAvoidBottomPadding: false,
+      appBar: new AppBar(
             backgroundColor: Color(0xFFCAE1FF),
             actions: <Widget>[
             new FlatButton(
@@ -73,128 +48,128 @@ class _ProfilePagePageState extends State<ProfilePage>{
                 onPressed: widget._signOut
               )
             ],
-          ),
-          body: Column(
-            children: <Widget>[
-              SizedBox(width:10, height:10),
-              Padding(
-                padding: EdgeInsets.all(10.0),
-                child: Form(
-                  key: formKey,
-                  child: Column(
-                   // mainAxisSize: MainAxisSize.min,
-                    children: <Widget> [
-                       Container(
-                        width: 150,
-                        height: 150,
-                        decoration: BoxDecoration(
-                          border: Border.all(width:1, color: Colors.black),
-                        ),
-                        child: _storedImage != null
-                        ? Image.file(
-                          _storedImage,
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                        )
-                        : Image(image: AssetImage("Assets/palk.jpg"), height: 155.0),
-                        alignment: Alignment.center,
-                      ),
-                    
-                        FlatButton.icon(
-                          icon: Icon(Icons.camera), 
-                          label: Text('Modify Profile Picture'),
-                          textColor: Theme.of(context).primaryColor,
-                          onPressed:(){ _takePicture(context);} ,
-                          ),
-                          
-                        SizedBox(height:10,),
-                    
-                      TextField(
-                        controller: _textFieldController1,
-                        decoration: InputDecoration(
-                          labelText: 'Name: ',
-                        ),
-                      ),
-                      TextField(
-                        controller: _textFieldController2,
-                        decoration: InputDecoration(
-                          labelText: 'Favorite Foods: ',
-                        ),
-                      ),
-                      TextField(
-                        controller: _textFieldController3,
-                        decoration: InputDecoration(
-                          labelText: 'Zipcode Location: ',
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.only(top: 70.0)),
-                       Align(
-                         alignment: Alignment.bottomCenter,
-                            child: RaisedButton(
-                           onPressed: () {},
-                           child: Text('Edit Profile'),
-                           ),
-                       )
-                    ]
-                  )
-                )
-              ),
-            ],
+          ),  
+      body: Column(
+        children: <Widget>[
+          FutureBuilder(
+            future: widget.auth.currentUserInfo(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                print(snapshot.data);
+                return displayUserInformation(context, snapshot);
+              }
+              else {
+                return CircularProgressIndicator();
+              }
+            },
           )
-      );
-    }
+        ]
+      )
+    );
+  } 
+  Widget displayUserInformation(context, snapshot) {
+    final user = snapshot.data;
+    return Column(
+      children: <Widget>[
+        Padding(padding: EdgeInsets.only(top: 75.0),),
+        Container(
+          width: 150,
+          height: 150,
+          decoration: BoxDecoration(
+            border: Border.all(width:1, color: Colors.black),
+          ),
+          child: user.photoUrl != null
+          ? Image.network(
+            user.photoUrl,
+            fit: BoxFit.cover,
+            width: double.infinity,
+          )
+          : Text('No Profile Picture', textAlign: TextAlign.center,),
+          alignment: Alignment.center,
+        ),
+        FlatButton.icon (
+          icon: Icon(Icons.camera), 
+          label: Text('Update Profile Picture'),
+          textColor: Theme.of(context).primaryColor,
+          onPressed:(){ _takePicture(context);} ,
+        ),
+        Padding(padding: const EdgeInsets.only(top: 10.0)),
+        Align(
+          alignment: Alignment.center,
+          child: Text(
+            "Name: ${user.displayName ?? 'Please Update Your Name'}", style: TextStyle(fontSize: 20),),
+        ),
 
-     void _submitconfirm(BuildContext context) async{
-      Firestore.instance.collection('food').add(
-        {
-          "Name" : _name,
-          "Description" : _description,
-          "Image" : _imageurl,
-        }
-      );
-     }
-      Future <void> _submit(BuildContext context) async{
-        _name = _textFieldController1.text;
-        _description = _textFieldController2.text;
-      showDialog(
-        context: context,
-        barrierDismissible: false, // user must tap button!
-        builder: (BuildContext context){
-          return AlertDialog(
-            backgroundColor: Color(0xFFCAE1FF),
-            title: Text('Confirm Submission?', textAlign: TextAlign.center,),
-            content: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                FloatingActionButton(
-                  child: Text('Yes'),
-                  backgroundColor: Colors.green[100],
-                  onPressed:(){ 
-                    _submitconfirm(context);
-                    Navigator.of(context).pop();
-                    _onClear();
-                    }
-                  ),
-                FloatingActionButton(
-                  child: Text('No'),
-                  backgroundColor: Colors.red[100],
-                  onPressed:(){ Navigator.of(context).pop();}
-                  ),
-              ],
-            ),
-          );
+        Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Text("Email: ${user.email ?? 'Anonymous'}", style: TextStyle(fontSize: 20),),
+        ),
 
+        Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: Text("Created: ${DateFormat('MM/dd/yyyy').format(
+              user.metadata.creationTime)}", style: TextStyle(fontSize: 20),),
+        ),
+        Padding(padding: EdgeInsets.only(top:25.0),),
+        showEditProfile(context),
+      ],
+    );
+  }
+  
+  Widget showEditProfile(context) {
+    String name;
+      return RaisedButton(
+        child: Text("Edit Profile"),
+        onPressed: () async {
+          showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    content: Form(
+                      key: _formKey,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: TextFormField(
+                              decoration: new InputDecoration(labelText: 'Full Name'),
+                              validator: (value) => value.isEmpty ? 'Full Name can\'t be empty' : null,
+                              onSaved: (value) => name = value,
+                            ),
+                          ),
+                          new RaisedButton(
+                              child: new Text('Submit', style: new TextStyle(fontSize: 20.0)),
+                              onPressed: () {
+                                widget.auth.setName(name);
+                              },
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                });
         },
       );
-    }
+  }
+
+  Future <void> _takePicture(BuildContext context) async {
+     final imageFile = await ImagePicker.pickImage(
+       source: ImageSource.camera,
+       );
+     setState(() {
+      _storedImage = imageFile;
+      });
+      _uploadImage(context);
+   }
 
   Future <void> _uploadImage(BuildContext context) async {
    String filName = basename(_storedImage.path);
    final StorageReference ref = FirebaseStorage.instance.ref().child(filName);
    final StorageUploadTask uploadTask = ref.putFile(_storedImage);
    var dowurl = await (await uploadTask.onComplete).ref.getDownloadURL();
-    _imageurl = dowurl.toString();
-    print(_imageurl);
+    _imageURL = dowurl.toString();
+    print(_imageURL);
+    widget.auth.updatePhotoURL(_imageURL);
    } 
-
 }

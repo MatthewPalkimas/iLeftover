@@ -21,6 +21,8 @@ class _LoginPageState extends State<LoginPage> {
 
   String _email;
   String _password;
+  String _name;
+  String _food;
   FormType _formType = FormType.login;
 
   bool validateAndSave() {
@@ -38,12 +40,10 @@ class _LoginPageState extends State<LoginPage> {
     if (validateAndSave()) {
       try {
         if (_formType == FormType.login) {
-          String userId = await widget.auth.signInWithEmailAndPassword(_email, _password);
-          print('Signed in: $userId');
+          await widget.auth.signInWithEmailAndPassword(_email, _password);
         }
         else {
-          String userId = await widget.auth.createUserWithEmailAndPassword(_email, _password);
-          print("Signed in: $userId");
+          await widget.auth.createUserWithEmailAndPassword(_email, _password, _name);
         }
         widget.onSignedIn();
       }
@@ -71,6 +71,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
     Widget build(BuildContext context) {
       return new Scaffold(
+        resizeToAvoidBottomPadding: false,
         body: new Container(
           alignment: Alignment.center,
           padding: EdgeInsets.fromLTRB(25.0, 200.0, 25.0, 0.0),
@@ -93,33 +94,10 @@ class _LoginPageState extends State<LoginPage> {
             height: 100,
             fit: BoxFit.contain,
           ),
-            // new Text("iLeftover", style: new TextStyle(
-            //             color: Color(0xFF139427), 
-            //             fontSize: 90.0,
-            //             shadows: [
-            //               Shadow( // bottomLeft
-            //                 offset: Offset(-2, -2),
-            //                 color: Color(0xFF0ea4b5)
-            //               ),
-            //               Shadow( // bottomRight
-            //                 offset: Offset(2, -2),
-            //                 color: Color(0xFF0ea4b5)
-            //               ),
-            //               Shadow( // topRight
-            //                 offset: Offset(2, 2),
-            //                 color: Color(0xFF0ea4b5)
-            //               ),
-            //               Shadow( // topLeft
-            //                 offset: Offset(-2, 2),
-            //                 color: Color(0xFF0ea4b5)
-            //               ),
-            //             ])
-            // ),
             new TextFormField(
               decoration: new InputDecoration(
                 labelStyle: TextStyle(
                   color: Colors.black,
-                //  fontWeight: FontWeight.bold,
                   fontSize: 20.0,
                 ),
                 labelText: 'Email',
@@ -159,6 +137,17 @@ class _LoginPageState extends State<LoginPage> {
         ];
       } else {
         return [
+            new TextFormField(
+              decoration: new InputDecoration(
+                labelStyle: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20.0,
+                ),
+                labelText: 'Full Name',
+              ),
+              validator: (value) => value.isEmpty ? 'Full Name can\'t be empty' : null,
+              onSaved: (value) => _name = value,
+            ),
             new RaisedButton(
               child: new Text('Create an Account', style: new TextStyle(fontSize: 20.0)),
               onPressed: validateAndSubmit,
@@ -166,6 +155,17 @@ class _LoginPageState extends State<LoginPage> {
             new RaisedButton(
               child: new Text('Have an account? Login', style: new TextStyle(fontSize: 20.0)),
               onPressed: moveToLogin,
+            ),
+            new TextFormField(
+              decoration: new InputDecoration(
+                labelStyle: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20.0,
+                ),
+                labelText: 'Favorite Food',
+              ),
+              validator: (value) => value.isEmpty ? 'Favorite Food can\'t be empty' : null,
+              onSaved: (value) => _food = value,
             ),
         ];
       }

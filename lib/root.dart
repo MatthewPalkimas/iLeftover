@@ -25,7 +25,7 @@ class _RootPageState extends State<RootPage>{
   @override
   void initState(){
     super.initState(); 
-    widget.auth.currentUser().then((userId){
+    widget.auth.currentUserInfo().then((userId){
       setState(() {
        authStatus = userId == null ? AuthStatus.notSignedIn : AuthStatus.signedIn;
       });

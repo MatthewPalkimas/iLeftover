@@ -93,6 +93,7 @@ class _Page1PageState extends State<Page1>{
     Widget build(BuildContext context)
     {
       return new Scaffold(
+          resizeToAvoidBottomPadding: false,
           appBar: new AppBar(
             backgroundColor: Color(0xFFCAE1FF),
             actions: <Widget>[
