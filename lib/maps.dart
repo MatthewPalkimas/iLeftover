@@ -70,8 +70,6 @@ class _Page3PageState extends State<Page3> {
     setState(() {
       initlatitude = currentPosition.latitude;
       initlongitude = currentPosition.longitude;
-      print(initlatitude);
-      print('\n$initlongitude');
     });
      _controller.animateCamera(CameraUpdate.newCameraPosition(
       CameraPosition(
@@ -85,17 +83,10 @@ class _Page3PageState extends State<Page3> {
   void initState() {
     super.initState();  
     createmarkers();
-   /* coffeeShops.forEach((element) {
-      allMarkers.add(Marker(
-          markerId: MarkerId(element.shopName), 
-          draggable: false,
-          infoWindow:
-              InfoWindow(title: element.shopName, snippet: element.address),
-          position: element.locationCoords));
-    });*/
+    populatefoodlist();
     _pageController = PageController(initialPage: 1, viewportFraction: 0.8)
     ..addListener(_onScroll);
-    populatefoodlist();
+    
   }
 
   void populatefoodlist(){
@@ -108,7 +99,7 @@ class _Page3PageState extends State<Page3> {
             imageurl: docs.documents[i]['Image'],
             time: docs.documents[i]['Time'].toDate(),
             latitude: docs.documents[i]['latitude'],
-            longitude: docs.documents[i]['longtitude'],
+            longitude: docs.documents[i]['longitude'],
           ));
         }
       }
@@ -289,8 +280,7 @@ class _Page3PageState extends State<Page3> {
   moveCamera(){
     _controller.animateCamera(CameraUpdate.newCameraPosition(
       CameraPosition(
-        target: coffeeShops[
-          _pageController.page.toInt()].locationCoords,
+        target:LatLng(foodlist[_pageController.page.toInt()].latitude,foodlist[_pageController.page.toInt()].longitude),
           zoom:14.0,
           bearing:45.0,
           tilt: 45.0
