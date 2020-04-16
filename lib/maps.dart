@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:food_savior/coffee_model.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'auth.dart';
 import 'package:geolocator/geolocator.dart';
@@ -115,7 +114,7 @@ class _Page3PageState extends State<Page3> {
     }
   }
 
-  _coffeeShopList(index){
+  _foodList(index){
     return AnimatedBuilder(
       animation: _pageController,
       builder: (BuildContext context, Widget widget){
@@ -256,7 +255,7 @@ class _Page3PageState extends State<Page3> {
                     controller: _pageController,
                     itemCount: foodlist.length,
                     itemBuilder: (BuildContext context, int index){
-                      return _coffeeShopList(index);
+                      return _foodList(index);
                     },
                   ),
                 ),

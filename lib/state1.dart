@@ -192,7 +192,7 @@ class _Page1PageState extends State<Page1>{
     }
 
      void _submitconfirm(BuildContext context) async{
-      Firestore.instance.collection('foodnew').add(
+       Firestore.instance.collection('foodnew').add(
         {
           "Name" : _name,
           "Description" : _description,
@@ -201,6 +201,7 @@ class _Page1PageState extends State<Page1>{
           "latitude": _latitude,
           'longitude': _longitude,
           "Time" : DateTime.now(),
+          'Reserved': 'no',
         }
       );
      }

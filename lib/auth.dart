@@ -14,6 +14,7 @@ abstract class BaseAuth{
   Future updatePhotoURL(String photoURL);
   Future<String> getPhotoURL();
   Future<void> signOut();
+  Future <String> getuid();
 }
 
 
@@ -26,13 +27,18 @@ class Auth implements BaseAuth{
     return user;
   }
 
+  Future <String> getuid() async {
+     FirebaseUser user = await _firebaseAuth.currentUser();
+     return user.uid;
+  }
+
   Future createUserWithEmailAndPassword(String email, String password, String displayName) async{
     AuthResult user = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password:password);
     UserUpdateInfo info = new UserUpdateInfo();
     info.displayName = displayName;
     user.user.updateProfile(info);
 
-    Firestore.instance.collection('users').document().setData(
+    Firestore.instance.collection('users').document(user.user.uid).setData(
       {
         'Full Name': displayName,
         'UserID': user.user.uid,
@@ -61,7 +67,7 @@ class Auth implements BaseAuth{
     info.displayName = displayName;
     await user.updateProfile(info);
     await user.reload();
-    Firestore.instance.collection('users').document().setData(
+    Firestore.instance.collection('users').document(user.uid).setData(
       {
         'Full Name': displayName,
         'UserID': user.uid,
@@ -79,7 +85,7 @@ class Auth implements BaseAuth{
     info.photoUrl = photoURL;
     await user.updateProfile(info);
     await user.reload();
-    Firestore.instance.collection('users').document().setData(
+    Firestore.instance.collection('users').document(user.uid).setData(
       {
         'Full Name': user.displayName,
         'UserID': user.uid,
