@@ -42,14 +42,28 @@ class _Page2PageState extends State<Page2>{
           ),
           body: StreamBuilder(
             stream: Firestore.instance.collection("foodnew").snapshots(),
-            builder: (context,snapshot) {
-              if(!snapshot.hasData) 
-                return Text('Loading data... Please wait...');
-
+            builder: (context,snapshot) { 
+                if(!snapshot.hasData) 
+                return Center(child: 
+                Text('...Fetching data...!',style: TextStyle(
+                  fontSize: 30,
+                  fontStyle: FontStyle.italic
+                ),)
+                );
+              else 
               return new ListView.builder(
                 itemCount: snapshot.data.documents.length,
                 itemBuilder: (context,index){
                   DocumentSnapshot ds = snapshot.data.documents[index];
+                  if(snapshot.data.documents.length == 0) { 
+                return Center(child: 
+                Text('No Active Reservations!',style: TextStyle(
+                  fontSize: 30,
+                  fontStyle: FontStyle.italic
+                ),)
+                );
+                  }
+                  else
                   return Stack(
                     children: <Widget>[
                       Column(children: <Widget>[
@@ -170,10 +184,12 @@ class _Page2PageState extends State<Page2>{
 
     Future _movedocument(String id) async{
       String user = await widget.auth.getuid();
-      DocumentReference userdoc =  Firestore.instance.collection('users').document(user).collection('reservedfood').document(id);
+      CollectionReference userdoc =  Firestore.instance.collection('users').document(user).collection('reservedfood');
       DocumentReference copyfrom =  Firestore.instance.collection('foodnew').document(id);
-      copyfrom.get().then((data){
-        userdoc.setData(data.data);
+      print('copy from docid: $id');
+      print("copy to userid: $user");
+      await copyfrom.get().then((dataread){
+        userdoc.document(id).setData(dataread.data);
       });
       copyfrom.delete();
     } 

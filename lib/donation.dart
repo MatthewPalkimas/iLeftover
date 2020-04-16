@@ -3,6 +3,7 @@ import 'auth.dart';
 import 'profile.dart';
 import 'statement.dart';
 import 'home.dart';
+import 'Reservepage.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({this.auth, this.onSignedOut});
@@ -52,7 +53,12 @@ class _HomePageState extends State<HomePage>{
             onSignedOut: widget._signOut,
             goBack: defaultPage
         ),
-        Page4(
+            Reservepage(
+            auth: widget.auth,
+            onSignedOut: widget._signOut,
+            goBack: defaultPage
+        ),
+        Page4(                                // statement page
             auth: widget.auth,
             onSignedOut: widget._signOut,
             goBack: defaultPage
@@ -62,6 +68,8 @@ class _HomePageState extends State<HomePage>{
           body: _children[pageNumber],
           bottomNavigationBar: new BottomNavigationBar(
             onTap: changePage,
+            type: BottomNavigationBarType.fixed,
+            backgroundColor: Color(0xFFCAE1FF),
             currentIndex: pageNumber,
             items: [
               BottomNavigationBarItem(
@@ -72,6 +80,10 @@ class _HomePageState extends State<HomePage>{
                 icon: new Icon(Icons.person),
                 title: new Text('Profile'),
                 ),
+              BottomNavigationBarItem(
+                icon: new Icon(Icons.shopping_basket),
+                title: new Text('Reservations'),
+              ),
               BottomNavigationBarItem(
                 icon: new Icon(Icons.satellite),
                 title: new Text('About Us'),

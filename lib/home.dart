@@ -128,7 +128,7 @@ class _HomePage2State extends State<HomePage2>{
                                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                       children: <Widget>[
                                       new Icon(
-                                      Icons.drive_eta,
+                                      Icons.map,
                                       color: Colors.white,
                                       size: 50.0
                                       ),
