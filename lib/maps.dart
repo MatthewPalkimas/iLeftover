@@ -55,12 +55,8 @@ class _Page3PageState extends State<Page3> {
               ),
             position: LatLng(docs.documents[i]['latitude'], docs.documents[i]['longitude']),
           ));
-          print(docs.documents[i]['latitude']);print('\n');
-          print(docs.documents[i]['longitude']);print('\n');
-          print('\nlmao\n');
         }
       }
-      else print('\ndocuments empty');
     });
   }
   
@@ -99,6 +95,7 @@ class _Page3PageState extends State<Page3> {
             time: docs.documents[i]['Time'].toDate(),
             latitude: docs.documents[i]['latitude'],
             longitude: docs.documents[i]['longitude'],
+            documentid: docs.documents[i].documentID,
           ));
         }
       }
@@ -113,6 +110,23 @@ class _Page3PageState extends State<Page3> {
       moveCamera();
     }
   }
+
+
+  Future _movedocument(String id,int index) async{
+      String user = await widget.auth.getuid();
+      CollectionReference userdoc =  Firestore.instance.collection('users').document(user).collection('reservedfood');
+      DocumentReference copyfrom =  Firestore.instance.collection('foodnew').document(id);
+      print('copy from docid: $id');
+      print("copy to userid: $user");
+      await copyfrom.get().then((dataread){
+        userdoc.document(id).setData(dataread.data);
+      });
+      copyfrom.delete();
+      setState(() {
+        foodlist.removeAt(index);
+        createmarkers();
+      });
+    } 
 
   _foodList(index){
     return AnimatedBuilder(
@@ -133,8 +147,56 @@ class _Page3PageState extends State<Page3> {
       },
       child:InkWell(
         onTap: (){
-          //moveCamera();
-        }, // HOW WE CAN MAKE IT CLICKABLE MAYBE???
+          showDialog(
+            context: context,
+            barrierDismissible: true,
+             builder: (BuildContext context) {
+             return AlertDialog(
+             backgroundColor: Color(0xFFCAE1FF),
+             title: Text('Reservation Confirmation', textAlign: TextAlign.center, style: TextStyle(fontSize: 20)),
+             content: Container(
+               child: Column(
+                 mainAxisSize: MainAxisSize.min,
+                 children: <Widget>[
+                   Container(
+                     child: Flexible(child: Text("Do you want to proceed with reserving ${foodlist[index].name}?"))),
+                     Row(
+                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                       children: <Widget>[
+                       RaisedButton(
+                         elevation: 8,
+                         color: Colors.greenAccent,
+                         onPressed: (){
+                           Navigator.of(context).pop();
+                           _movedocument(foodlist[index].documentid,index);
+                           
+                         },
+                         child:Row(
+                           mainAxisAlignment: MainAxisAlignment.start,
+                           children: <Widget>[
+                             Icon(Icons.check_box),
+                             Text("Reserve"),
+                           ],)
+                         ),
+                       RaisedButton(
+                         elevation: 8,
+                         color: Colors.redAccent,
+                         onPressed: (){Navigator.of(context).pop();},
+                         child: Row(
+                           children: <Widget>[
+                             Icon(Icons.cancel),
+                             Text("Cancel"),
+                         ],),
+                         )
+                     ],
+                     )
+                   
+                 ],
+               ),
+             ),
+            );
+             });
+        }, 
         child: Stack(
           children: [
             Center(
@@ -177,12 +239,12 @@ class _Page3PageState extends State<Page3> {
                           )
                         )
                       ),
-                      SizedBox(width: 5.0),
+                      SizedBox(width: 25.0),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
+                                Text(
                                   foodlist[index].name,
                                   style: TextStyle(
                                       fontSize: 12.5,
@@ -191,17 +253,14 @@ class _Page3PageState extends State<Page3> {
                                 Text(
                                   DateFormat('kk:mm EEE d MMM').format(foodlist[index].time),
                                   style: TextStyle(
+                                      fontSize: 11.0,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                Text(
+                                  foodlist[index].description,
+                                  style: TextStyle(
                                       fontSize: 12.0,
                                       fontWeight: FontWeight.w600),
-                                ),
-                                Container(
-                                  width: 170.0,
-                                  child: Text(
-                                    foodlist[index].description,
-                                    style: TextStyle(
-                                        fontSize: 11.0,
-                                        fontWeight: FontWeight.w300),
-                                  ),
                                 )
                         ]
                       )
