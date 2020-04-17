@@ -50,20 +50,18 @@ class _Page2PageState extends State<Page2>{
                   fontStyle: FontStyle.italic
                 ),)
                 );
-              else 
-              return new ListView.builder(
-                itemCount: snapshot.data.documents.length,
-                itemBuilder: (context,index){
-                  DocumentSnapshot ds = snapshot.data.documents[index];
-                  if(snapshot.data.documents.length == 0) { 
+              else if (snapshot.data.documents.length == 0) {
                 return Center(child: 
                 Text('No Active Reservations!',style: TextStyle(
                   fontSize: 30,
                   fontStyle: FontStyle.italic
                 ),)
                 );
-                  }
-                  else
+              }
+              return new ListView.builder(
+                itemCount: snapshot.data.documents.length,
+                itemBuilder: (context,index){
+                  DocumentSnapshot ds = snapshot.data.documents[index];                           
                   return Stack(
                     children: <Widget>[
                       Column(children: <Widget>[
@@ -101,7 +99,9 @@ class _Page2PageState extends State<Page2>{
                                   children: <Widget>[
                                     RaisedButton(
                                       color: Colors.redAccent,
-                                      onPressed: (){},  //code for chat function goes here
+                                      onPressed: (){
+                                        
+                                      },  //code for chat function goes here
                                       child: Row(
                                         children: <Widget>[
                                           Icon(Icons.chat_bubble_outline),
