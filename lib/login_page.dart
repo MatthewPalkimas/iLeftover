@@ -71,14 +71,12 @@ class _LoginPageState extends State<LoginPage> {
   @override
     Widget build(BuildContext context) {
       return new Scaffold(
-        resizeToAvoidBottomPadding: false,
         body: new Container(
           alignment: Alignment.center,
           padding: EdgeInsets.fromLTRB(25.0, 200.0, 25.0, 0.0),
           child: new Form(
             key: formKey,
-            child: new Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+            child: new ListView(
               children: buildInputs() + buildSubmitButtons(),
             ),
           ),
