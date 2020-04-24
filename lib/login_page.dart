@@ -27,7 +27,6 @@ class _LoginPageState extends State<LoginPage> {
   String _password;
   String _name;
   String _food;
-  String photoURL;
   File _storedImage;
   String _imageURL;
   FormType _formType = FormType.login;
@@ -183,15 +182,16 @@ class _LoginPageState extends State<LoginPage> {
             validator: (value) => value.isEmpty ? 'Favorite Food can\'t be empty' : null,
             onSaved: (value) => _food = value,
           ),
+          Padding(padding: EdgeInsets.only(top:10.0)),
           Container(
             width: 150,
             height: 150,
             decoration: BoxDecoration(
               border: Border.all(width:1, color: Colors.black),
             ),
-            child: photoURL != null
-            ? Image.network(
-              photoURL,
+            child: _storedImage != null
+            ? Image.file(
+              _storedImage,
               fit: BoxFit.cover,
               width: double.infinity,
             )
@@ -307,7 +307,6 @@ class _LoginPageState extends State<LoginPage> {
    var dowurl = await (await uploadTask.onComplete).ref.getDownloadURL();
     _imageURL = dowurl.toString();
     print(_imageURL);
-    // photoURL = _imageURL;
     widget.auth.updatePhotoURL(_imageURL);
    }
 }
