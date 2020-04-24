@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'auth.dart';
+import 'dart:io';
+import 'package:path/path.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({this.auth,this.onSignedIn});
@@ -18,11 +23,13 @@ enum FormType {
 class _LoginPageState extends State<LoginPage> {
   
   final formKey = new GlobalKey<FormState>();
-
   String _email;
   String _password;
   String _name;
   String _food;
+  String photoURL;
+  File _storedImage;
+  String _imageURL;
   FormType _formType = FormType.login;
 
   bool validateAndSave() {
@@ -49,6 +56,7 @@ class _LoginPageState extends State<LoginPage> {
       }
       catch (e) {
         print('Error: $e');
+        _displayError(e, context);
       }
     }
   }
@@ -73,25 +81,62 @@ class _LoginPageState extends State<LoginPage> {
       return new Scaffold(
         body: new Container(
           alignment: Alignment.center,
-          padding: EdgeInsets.fromLTRB(25.0, 200.0, 25.0, 0.0),
+          padding: EdgeInsets.fromLTRB(25.0, 25.0, 25.0, 0.0),
           child: new Form(
             key: formKey,
             child: new ListView(
-              children: buildInputs() + buildSubmitButtons(),
+              children: buildInputs(context) + buildSubmitButtons(),
             ),
           ),
         )
       );
     }
 
-    List<Widget> buildInputs(){
-      return [
-          Image.asset(
-            'Assets/LOGO.png',
-            width: 200,
-            height: 100,
-            fit: BoxFit.contain,
-          ),
+    List<Widget> buildInputs(context){
+      if (_formType == FormType.login)
+      {
+        return [      
+            Padding(padding: EdgeInsets.only(top:200.0)),
+            Image.asset(
+              'Assets/LOGO.png',
+              width: 200,
+              height: 100,
+              fit: BoxFit.contain,
+            ),
+              new TextFormField(
+                decoration: new InputDecoration(
+                  labelStyle: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20.0,
+                  ),
+                  labelText: 'Email',
+                ),
+                validator: (value) => value.isEmpty ? 'Email can\'t be empty' : null,
+                onSaved: (value) => _email = value,
+              ),
+              new TextFormField(
+                decoration: new InputDecoration(
+                  labelStyle: TextStyle(
+                    color: Colors.black,
+              //      fontWeight: FontWeight.bold,
+                    fontSize: 20.0,
+                  ),
+                  labelText: 'Password',
+                  ),
+                validator: (value) => value.isEmpty ? 'Password can\'t be empty' : null,
+                obscureText: true,
+                onSaved: (value) => _password = value,
+              ),
+        ];
+      }
+      else {
+          return [      
+            Image.asset(
+              'Assets/LOGO.png',
+              width: 200,
+              height: 100,
+              fit: BoxFit.contain,
+            ),
             new TextFormField(
               decoration: new InputDecoration(
                 labelStyle: TextStyle(
@@ -116,13 +161,57 @@ class _LoginPageState extends State<LoginPage> {
               obscureText: true,
               onSaved: (value) => _password = value,
             ),
-      ];
+            new TextFormField(
+            decoration: new InputDecoration(
+              labelStyle: TextStyle(
+                color: Colors.black,
+                fontSize: 20.0,
+              ),
+              labelText: 'Full Name',
+            ),
+            validator: (value) => value.isEmpty ? 'Full Name can\'t be empty' : null,
+            onSaved: (value) => _name = value,
+          ),
+          new TextFormField(
+            decoration: new InputDecoration(
+              labelStyle: TextStyle(
+                color: Colors.black,
+                fontSize: 20.0,
+              ),
+              labelText: 'Favorite Food',
+            ),
+            validator: (value) => value.isEmpty ? 'Favorite Food can\'t be empty' : null,
+            onSaved: (value) => _food = value,
+          ),
+          Container(
+            width: 150,
+            height: 150,
+            decoration: BoxDecoration(
+              border: Border.all(width:1, color: Colors.black),
+            ),
+            child: photoURL != null
+            ? Image.network(
+              photoURL,
+              fit: BoxFit.cover,
+              width: double.infinity,
+            )
+            : Text('No Profile Picture', textAlign: TextAlign.center,),
+            alignment: Alignment.center,
+          ),
+          FlatButton.icon (
+            icon: Icon(Icons.camera), 
+            label: Text('Update Profile Picture'),
+            textColor: Colors.lightBlue,
+            onPressed:(){ _takePicture(context);} ,
+          ),
+        ];
+      }
     }
 
     List<Widget> buildSubmitButtons() {
       if (_formType == FormType.login) 
       {
-        return [                
+        return [           
             new RaisedButton(
               child: new Text('Login', style: new TextStyle(fontSize: 20.0)),
               onPressed: validateAndSubmit,
@@ -135,17 +224,7 @@ class _LoginPageState extends State<LoginPage> {
         ];
       } else {
         return [
-            new TextFormField(
-              decoration: new InputDecoration(
-                labelStyle: TextStyle(
-                  color: Colors.black,
-                  fontSize: 20.0,
-                ),
-                labelText: 'Full Name',
-              ),
-              validator: (value) => value.isEmpty ? 'Full Name can\'t be empty' : null,
-              onSaved: (value) => _name = value,
-            ),
+            Padding(padding: EdgeInsets.only(top:10.0)),
             new RaisedButton(
               child: new Text('Create an Account', style: new TextStyle(fontSize: 20.0)),
               onPressed: validateAndSubmit,
@@ -153,17 +232,6 @@ class _LoginPageState extends State<LoginPage> {
             new RaisedButton(
               child: new Text('Have an account? Login', style: new TextStyle(fontSize: 20.0)),
               onPressed: moveToLogin,
-            ),
-            new TextFormField(
-              decoration: new InputDecoration(
-                labelStyle: TextStyle(
-                  color: Colors.black,
-                  fontSize: 20.0,
-                ),
-                labelText: 'Favorite Food',
-              ),
-              validator: (value) => value.isEmpty ? 'Favorite Food can\'t be empty' : null,
-              onSaved: (value) => _food = value,
             ),
         ];
       }
@@ -209,4 +277,37 @@ class _LoginPageState extends State<LoginPage> {
       ],
     );
   }
+
+  void _displayError(PlatformException error, context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Text("Error"),
+          content: new Text(error.message),
+        );
+      }
+    );
+  }
+
+  Future <void> _takePicture(BuildContext context) async {
+     final imageFile = await ImagePicker.pickImage(
+       source: ImageSource.camera,
+       );
+     setState(() {
+      _storedImage = imageFile;
+      });
+      _uploadImage(context);
+   }
+
+  Future <void> _uploadImage(BuildContext context) async {
+   String filName = basename(_storedImage.path);
+   final StorageReference ref = FirebaseStorage.instance.ref().child(filName);
+   final StorageUploadTask uploadTask = ref.putFile(_storedImage);
+   var dowurl = await (await uploadTask.onComplete).ref.getDownloadURL();
+    _imageURL = dowurl.toString();
+    print(_imageURL);
+    // photoURL = _imageURL;
+    widget.auth.updatePhotoURL(_imageURL);
+   }
 }
