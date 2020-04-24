@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:food_savior/chat.dart';
 import 'auth.dart';
 import 'profile.dart';
 import 'statement.dart';
 import 'home.dart';
 import 'Reservepage.dart';
+import 'chat.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({this.auth, this.onSignedOut});
@@ -63,6 +65,11 @@ class _HomePageState extends State<HomePage>{
             onSignedOut: widget._signOut,
             goBack: defaultPage
           ),
+        ChatPage(
+          auth: widget.auth,
+          onSignedOut: widget._signOut,
+          goBack: defaultPage,
+        )
       ];
       return new Scaffold(
           body: _children[pageNumber],
@@ -74,19 +81,19 @@ class _HomePageState extends State<HomePage>{
             items: [
               BottomNavigationBarItem(
                 icon: new Icon(Icons.home),
-                title: new Text('Home'),
+                title: new Text('Home', style: TextStyle(color: Colors.black),),
                 ),
               BottomNavigationBarItem(
                 icon: new Icon(Icons.person),
-                title: new Text('Profile'),
+                title: new Text('Profile',style: TextStyle(color: Colors.black),),
                 ),
               BottomNavigationBarItem(
                 icon: new Icon(Icons.shopping_basket),
-                title: new Text('Reservations'),
+                title: new Text('Reservations',style: TextStyle(color: Colors.black),),
               ),
               BottomNavigationBarItem(
                 icon: new Icon(Icons.satellite),
-                title: new Text('About Us'),
+                title: new Text('About Us',style: TextStyle(color: Colors.black),),
               ),
              ],
           ),

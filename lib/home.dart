@@ -3,6 +3,7 @@ import 'auth.dart';
 import 'state1.dart';
 import 'state2.dart';
 import 'maps.dart';
+import 'chathome.dart';
 
 int homePageNumber = 0;
 
@@ -53,7 +54,7 @@ class _HomePage2State extends State<HomePage2>{
             backgroundColor: Color(0xFFCAE1FF),
             actions: <Widget>[
             new FlatButton(
-                child: new Text('Logout', style: new TextStyle(fontSize: 17.0, color: Colors.white)),
+                child: new Text('Logout', style: new TextStyle(fontSize: 17.0, color: Colors.black)),
                 onPressed: widget._signOut
               )
             ],
@@ -62,6 +63,7 @@ class _HomePage2State extends State<HomePage2>{
             
             child: new Container(
               child: Column(
+                
                 children: <Widget>[
                   new Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -78,7 +80,7 @@ class _HomePage2State extends State<HomePage2>{
                         child: Center(
                             child: new Column(
                               children: <Widget>[
-                                new Padding(padding: EdgeInsets.only(top: 10.0)),
+                                new Padding(padding: EdgeInsets.only(top: 15.0)),
                                   new RawMaterialButton(
                                     child: new Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -95,12 +97,12 @@ class _HomePage2State extends State<HomePage2>{
                                     ]
                                     ),
                                     onPressed: () => changePage(1),
-                                    shape: new RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+                                    shape: new RoundedRectangleBorder(borderRadius: BorderRadius.circular(40),),
                                     elevation: 2.0,
-                                    fillColor: Color(0xFF7180A9),
+                                    fillColor: Colors.red[200],
                                     padding: const EdgeInsets.all(15.0),
                                   ),
-                                  Padding(padding: EdgeInsets.only(top: 50.0)),
+                                  Padding(padding: EdgeInsets.only(top: 15.0)),
                                   new RawMaterialButton(
                                     child: new Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -119,10 +121,10 @@ class _HomePage2State extends State<HomePage2>{
                                     onPressed: () => changePage(2),
                                     shape: new RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
                                     elevation: 2.0,
-                                    fillColor: Color(0xFFCAE1FF),
+                                    fillColor: Color(0xFF84D9FF),
                                     padding: const EdgeInsets.all(15.0),
                                   ),
-                                  Padding(padding: EdgeInsets.only(top: 50.0)),
+                                  Padding(padding: EdgeInsets.only(top: 15.0)),
                                   new RawMaterialButton(
                                     child: new Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -139,6 +141,32 @@ class _HomePage2State extends State<HomePage2>{
                                     ]
                                     ),
                                     onPressed: () => changePage(3),
+                                    shape: new RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+                                    elevation: 2.0,
+                                    fillColor: Colors.red[200],
+                                    padding: const EdgeInsets.all(15.0),
+                                  ),
+                                   Padding(padding: EdgeInsets.only(top: 15.0)),
+                                   new RawMaterialButton(
+                                    child: new Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      children: <Widget>[
+                                      new Icon(
+                                      Icons.chat_bubble,
+                                      color: Colors.white,
+                                      size: 50.0
+                                      ),
+                                      new Text(
+                                        'Chats',
+                                        style: TextStyle(fontSize: 40, color: Colors.black)
+                                      ),
+                                    ]
+                                    ),
+                                    onPressed: () { Navigator.push(
+                                      context, MaterialPageRoute(
+                                        builder: (context) => Chathomepage(widget.auth)),
+                                        );},
+                                        
                                     shape: new RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
                                     elevation: 2.0,
                                     fillColor: Color(0xFF84D9FF),

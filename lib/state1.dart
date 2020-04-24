@@ -35,6 +35,7 @@ class _Page1PageState extends State<Page1>{
   Geoflutterfire geo = Geoflutterfire();
   Position currentpos;
   GeoFirePoint myLocation;
+  String uid;
   TextEditingController _textFieldController1 = TextEditingController();
   TextEditingController _textFieldController2 = TextEditingController();
   final formKey = GlobalKey<FormState>();
@@ -54,7 +55,9 @@ class _Page1PageState extends State<Page1>{
     'fish',
   ];
 
-
+  void getuid() async {
+    uid = await widget.auth.getuid();
+ }
 
    Future <void> _takePicture(BuildContext context) async {
      final imageFile = await ImagePicker.pickImage(
@@ -76,6 +79,7 @@ class _Page1PageState extends State<Page1>{
       _storedImage = imageFile;
       });
       _uploadImage(context);
+      getuid();
    }
    
    void  _onClear() {
@@ -98,12 +102,12 @@ class _Page1PageState extends State<Page1>{
             backgroundColor: Color(0xFFCAE1FF),
             actions: <Widget>[
             new FlatButton(
-                child: new Text('Back', style: new TextStyle(fontSize: 17.0, color: Colors.white),),
+                child: new Text('Back', style: new TextStyle(fontSize: 17.0, color: Colors.black),),
                 onPressed: widget.goBack
                 
               ),
             new FlatButton(
-                child: new Text('Logout', style: new TextStyle(fontSize: 17.0, color: Colors.white)),
+                child: new Text('Logout', style: new TextStyle(fontSize: 17.0, color: Colors.black)),
                 onPressed: widget._signOut
               )
             ],
@@ -202,6 +206,7 @@ class _Page1PageState extends State<Page1>{
           'longitude': _longitude,
           "Time" : DateTime.now(),
           'Reserved': 'no',
+          "doneruid": uid,
         }
       );
      }

@@ -1,7 +1,10 @@
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:food_savior/chat.dart';
+import 'package:food_savior/chat2.dart';
 import 'auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'chat2.dart';
 
 class Page2 extends StatefulWidget {
   Page2({this.auth, this.onSignedOut, this.goBack});
@@ -31,11 +34,11 @@ class _Page2PageState extends State<Page2>{
             backgroundColor: Color(0xFFCAE1FF),
             actions: <Widget>[
             new FlatButton(
-                child: new Text('Back', style: new TextStyle(fontSize: 17.0, color: Colors.white)),
+                child: new Text('Back', style: new TextStyle(fontSize: 17.0, color: Colors.black)),
                 onPressed: widget.goBack
               ),
             new FlatButton(
-                child: new Text('Logout', style: new TextStyle(fontSize: 17.0, color: Colors.white)),
+                child: new Text('Logout', style: new TextStyle(fontSize: 17.0, color: Colors.black)),
                 onPressed: widget._signOut
               )
             ],
@@ -99,8 +102,17 @@ class _Page2PageState extends State<Page2>{
                                   children: <Widget>[
                                     RaisedButton(
                                       color: Colors.redAccent,
-                                      onPressed: (){
-                                        
+                                      onPressed: () async{
+                                        String uidfrom = await widget.auth.getuid();
+                                        String uidto = ds['doneruid'];
+                                        String temp = uidfrom + uidto;
+                                        int groupchatid = temp.hashCode;
+                                       // return new ChatPage();
+                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>new ChatScreen(
+                                          groupid: groupchatid,
+                                          uidreceiver: uidfrom,
+                                          uiddoner: uidto,
+                                          auth: widget.auth,)));
                                       },  //code for chat function goes here
                                       child: Row(
                                         children: <Widget>[
@@ -145,8 +157,7 @@ class _Page2PageState extends State<Page2>{
                                             );
                                           }
                                           );
-                                        
-                                      },  //code for chat function goes here
+                                        },
                                       child: Row(
                                         children: <Widget>[
                                           Icon(Icons.check_box),

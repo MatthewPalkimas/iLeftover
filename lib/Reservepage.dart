@@ -38,11 +38,11 @@ class _ReservepageState extends State<Reservepage>{
             backgroundColor: Color(0xFFCAE1FF),
             actions: <Widget>[
             new FlatButton(
-                child: new Text('Back', style: new TextStyle(fontSize: 17.0, color: Colors.white)),
+                child: new Text('Back', style: new TextStyle(fontSize: 17.0, color: Colors.black)),
                 onPressed: widget.goBack
               ),
             new FlatButton(
-                child: new Text('Logout', style: new TextStyle(fontSize: 17.0, color: Colors.white)),
+                child: new Text('Logout', style: new TextStyle(fontSize: 17.0, color: Colors.black)),
                 onPressed: widget._signOut
               )
             ],
