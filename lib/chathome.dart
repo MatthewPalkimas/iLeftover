@@ -14,14 +14,17 @@ class _ChathomepageState extends State<Chathomepage> {
    String curruid;
    String piggy;
  Future getuid() async {
-     await  widget.auth.getuid().then((result){
-         curruid = result;
-       });
+    // await  widget.auth.getuid().then((result){
+         curruid = await widget.auth.getuid();
+      // });
   }
 @override
   void initState(){
-    super.initState(); 
-    getuid();
+    super.initState();
+    setState(() {
+       getuid();
+    }); 
+   
   }
 
 

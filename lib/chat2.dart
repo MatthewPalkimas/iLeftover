@@ -25,8 +25,9 @@ class ChatScreenState extends State<ChatScreen> {
   final TextEditingController textEditingController = new TextEditingController();
   CollectionReference ds = Firestore.instance.collection('messages');
 
-  void _handleSubmit(String text) async {
-    widget.currid = await widget.auth.getuid();
+  void _handleSubmit(String text)  {
+   
+    print(widget.currid);
     ds.document(groupid1).setData({
       'uidreserve': widget.uidreceiver,
       'uiddoner': widget.uiddoner,
@@ -41,6 +42,10 @@ class ChatScreenState extends State<ChatScreen> {
             "sentby": widget.currid,
           });
         });
+  }
+
+  void getuid() async{
+     widget.currid = await widget.auth.getuid();
   }
 
   Widget _textComposerWidget() {
@@ -88,6 +93,8 @@ class ChatScreenState extends State<ChatScreen> {
           body: StreamBuilder(
             stream: Firestore.instance.collection('messages').document(groupid1).collection('chat').orderBy("timeStamp",descending: true).snapshots(),
             builder: (context, snapshot) {
+              getuid();
+             //  widget.currid = await widget.auth.getuid();
               if(snapshot.data == null) return CircularProgressIndicator();
               return new Column(
               children: <Widget>[
