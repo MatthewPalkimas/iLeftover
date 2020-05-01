@@ -50,7 +50,7 @@ class ChatScreenState extends State<ChatScreen> {
 
   Widget _textComposerWidget() {
     return new IconTheme(
-      data: new IconThemeData(color: Colors.blue),
+      data: new IconThemeData(color: Color(0xFF827DFA)),
       child: new Container(
         margin: const EdgeInsets.symmetric(horizontal: 8.0),
         child: new Row(
@@ -94,8 +94,8 @@ class ChatScreenState extends State<ChatScreen> {
             stream: Firestore.instance.collection('messages').document(groupid1).collection('chat').orderBy("timeStamp",descending: true).snapshots(),
             builder: (context, snapshot) {
               getuid();
-             //  widget.currid = await widget.auth.getuid();
               if(snapshot.data == null) return CircularProgressIndicator();
+              else 
               return new Column(
               children: <Widget>[
                 new Flexible(

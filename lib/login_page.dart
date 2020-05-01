@@ -95,7 +95,7 @@ class _LoginPageState extends State<LoginPage> {
       if (_formType == FormType.login)
       {
         return [      
-            Padding(padding: EdgeInsets.only(top:200.0)),
+            Padding(padding: EdgeInsets.only(top:100.0)),
             Image.asset(
               'Assets/LOGO.png',
               width: 200,
@@ -212,6 +212,7 @@ class _LoginPageState extends State<LoginPage> {
       if (_formType == FormType.login) 
       {
         return [           
+            new SizedBox(height:20),
             new RaisedButton(
               child: new Text('Login', style: new TextStyle(fontSize: 20.0)),
               onPressed: validateAndSubmit,
@@ -240,7 +241,7 @@ class _LoginPageState extends State<LoginPage> {
     return new Row(
       children: <Widget>[
         new Container(
-          padding: EdgeInsets.only(left: 40.0, top: 20.0),
+          padding: EdgeInsets.only(left: 50.0, top: 20.0),
           alignment: Alignment.center,
           child: new OutlineButton(
             splashColor: Colors.green,
