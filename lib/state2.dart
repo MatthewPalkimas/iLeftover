@@ -228,10 +228,12 @@ class _Page2PageState extends State<Page2>{
       String user = await widget.auth.getuid();
       CollectionReference userdoc =  Firestore.instance.collection('users').document(user).collection('reservedfood');
       DocumentReference copyfrom =  Firestore.instance.collection('foodnew').document(id);
-      print('copy from docid: $id');
-      print("copy to userid: $user");
+      DocumentSnapshot copysnap = await copyfrom.get();
+      String tempid = copysnap['doneruid'];
+      CollectionReference donerdoc = Firestore.instance.collection('users').document(tempid).collection('reservedfood');
       await copyfrom.get().then((dataread){
         userdoc.document(id).setData(dataread.data);
+        donerdoc.document(id).setData(dataread.data);
       });
       copyfrom.delete();
     } 
