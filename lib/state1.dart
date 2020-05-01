@@ -8,6 +8,7 @@ import 'package:path/path.dart';
 import 'package:flutter/src/material/dropdown.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
+import 'package:giffy_dialog/giffy_dialog.dart';
 
 class Page1 extends StatefulWidget {
   Page1({this.auth, this.onSignedOut, this.goBack});
@@ -213,7 +214,38 @@ class _Page1PageState extends State<Page1>{
       Future <void> _submit(BuildContext context) async{
         _name = _textFieldController1.text;
         _description = _textFieldController2.text;
-      showDialog(
+        showDialog(
+          context: context,builder: (_)=> AssetGiffyDialog(
+            image: Image.network('https://media.giphy.com/media/l3q2wJsC23ikJg9xe/giphy.gif',
+            fit: BoxFit.cover,
+            ), 
+            title: Text(
+                    'Confirm Submission?',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                    fontSize: 22.0, fontWeight: FontWeight.w600),
+                  ),
+            description: Text("Are you ready to donate and feed some hungry mouths?", 
+              style:TextStyle(fontWeight:FontWeight.w600,fontSize: 17) ,),
+            entryAnimation: EntryAnimation.BOTTOM,
+            buttonCancelColor: Colors.red[300],
+            buttonCancelText: Text('No',
+            style:TextStyle(color: Colors.black,
+            fontWeight: FontWeight.w700)
+            ),
+            buttonOkColor: Colors.green,
+            buttonOkText: Text('Yes',
+            style:TextStyle(color: Colors.black,
+            fontWeight: FontWeight.w700)
+            ),
+            onOkButtonPressed: (){
+              _submitconfirm(context);
+              Navigator.of(context).pop();
+              _onClear();
+            },
+                  )
+            );
+     /* showDialog(
         context: context,
         barrierDismissible: false, // user must tap button!
         builder: (BuildContext context){
@@ -242,7 +274,7 @@ class _Page1PageState extends State<Page1>{
           );
 
         },
-      );
+      );*/
     }
 
   Future <void> _uploadImage(BuildContext context) async {

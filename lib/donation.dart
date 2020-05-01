@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:food_savior/chat.dart';
 import 'auth.dart';
 import 'profile.dart';
 import 'statement.dart';
 import 'home.dart';
 import 'Reservepage.dart';
-import 'chat.dart';
+
 
 class HomePage extends StatefulWidget {
   HomePage({this.auth, this.onSignedOut});
@@ -65,11 +64,6 @@ class _HomePageState extends State<HomePage>{
             onSignedOut: widget._signOut,
             goBack: defaultPage
           ),
-        ChatPage(
-          auth: widget.auth,
-          onSignedOut: widget._signOut,
-          goBack: defaultPage,
-        )
       ];
       return new Scaffold(
           body: _children[pageNumber],
