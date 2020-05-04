@@ -55,7 +55,7 @@ class _Page2PageState extends State<Page2>{
               context: context,
               builder: (BuildContext context)=> FancyDialog(
                 title: 'Reservation Proximity',
-                descreption: "We are limiting reservations to within your city so everyone else can have a piece of the pie! ",
+                descreption: "We are limiting reservations to within a 7 mile radius so everyone else can have a piece of the pie! ",
                 ok: 'Confirm',
                 cancel: 'Sure! ',
                 animationType: FancyAnimation.TOP_BOTTOM,
@@ -69,19 +69,22 @@ class _Page2PageState extends State<Page2>{
     Widget build(BuildContext context)
     { 
       return new Scaffold(
-          appBar: new AppBar(
-            backgroundColor: Color(0xFFCAE1FF),
+         appBar: AppBar(
+          leading: new FlatButton(
+            child: new IconButton(
+              icon: Icon(Icons.arrow_back, color: Colors.black),
+              onPressed: widget.goBack,
+            ),
+              onPressed: widget.goBack 
+            ),
+          backgroundColor: Color(0xFFCAE1FF),
             actions: <Widget>[
-            new FlatButton(
-                child: new Text('Back', style: new TextStyle(fontSize: 17.0, color: Colors.black)),
-                onPressed: widget.goBack
-              ),
             new FlatButton(
                 child: new Text('Logout', style: new TextStyle(fontSize: 17.0, color: Colors.black)),
                 onPressed: widget._signOut
               )
             ],
-          ),
+        ),
           body: StreamBuilder(
             stream: Firestore.instance.collection("foodnew").snapshots(),
             builder: (context,snapshot) { 

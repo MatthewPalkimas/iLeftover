@@ -35,12 +35,6 @@ class _ChathomepageState extends State<Chathomepage> {
           appBar: new AppBar(
             title: Text('Your Chats'),
             backgroundColor: Color(0xFFCAE1FF),
-            actions: <Widget>[
-            new FlatButton(
-                child: new Text('Back', style: new TextStyle(fontSize: 17.0, color: Colors.black)),
-                onPressed:() {Navigator.pop(context);}     
-          ) 
-        ]
       ),
       body: StreamBuilder(
         stream: Firestore.instance.collection('messages').where('uiddoner', isEqualTo: curruid).snapshots(),

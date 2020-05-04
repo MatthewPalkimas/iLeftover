@@ -239,30 +239,31 @@ class _Page3PageState extends State<Page3> {
                           )
                         )
                       ),
-                      SizedBox(width: 25.0),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                                Text(
-                                  foodlist[index].name,
-                                  style: TextStyle(
-                                      fontSize: 12.5,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  DateFormat('kk:mm EEE d MMM').format(foodlist[index].time),
-                                  style: TextStyle(
-                                      fontSize: 11.0,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                                Text(
-                                  foodlist[index].description,
-                                  style: TextStyle(
-                                      fontSize: 12.0,
-                                      fontWeight: FontWeight.w600),
-                                )
-                        ]
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                                  Text(
+                                    foodlist[index].name,
+                                    style: TextStyle(
+                                        fontSize: 12.5,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    DateFormat('EEE d MMM').format(foodlist[index].time),
+                                    style: TextStyle(
+                                        fontSize: 11.0,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  Text(
+                                    DateFormat('kk:mm').format(foodlist[index].time),
+                                    style: TextStyle(
+                                        fontSize: 12.0,
+                                        fontWeight: FontWeight.w600),
+                                  )
+                          ]
+                        ),
                       )
                     ]
                   )
@@ -279,16 +280,17 @@ class _Page3PageState extends State<Page3> {
 
       return Scaffold(
         appBar: AppBar(
-          title: Text(widget.title),
-          backgroundColor: Color(0xFFC4CACF),
+          leading: new FlatButton(
+            child: new IconButton(
+              icon: Icon(Icons.arrow_back, color: Colors.black),
+              onPressed: widget.goBack,
+            ),
+              onPressed: widget.goBack 
+            ),
+          backgroundColor: Color(0xFFCAE1FF),
             actions: <Widget>[
             new FlatButton(
-                child: new Text('Back', style: new TextStyle(fontSize: 17.0, color: Colors.white),),
-                onPressed: widget.goBack
-                
-              ),
-            new FlatButton(
-                child: new Text('Logout', style: new TextStyle(fontSize: 17.0, color: Colors.white)),
+                child: new Text('Logout', style: new TextStyle(fontSize: 17.0, color: Colors.black)),
                 onPressed: widget._signOut
               )
             ],
