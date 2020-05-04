@@ -8,6 +8,7 @@ import 'auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'chat2.dart';
 import 'package:fancy_dialog/fancy_dialog.dart';
+import 'package:geolocator/geolocator.dart';
 
 class Page2 extends StatefulWidget {
   Page2({this.auth, this.onSignedOut, this.goBack});
@@ -27,11 +28,46 @@ class Page2 extends StatefulWidget {
   }
 }
 
+
+
 class _Page2PageState extends State<Page2>{
+
+  Future _getcurrlocation() async { 
+  return Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+  }
+
+  updatelocation() async {
+    position = await _getcurrlocation();
+    setState(() {
+      _currlatitude = position.latitude;
+        _currlongitude = position.longitude;
+    });
+  }
+
+  Position position;
+  double _currlatitude = 0, _currlongitude= 0;
+
+  void initState()  {
+    super.initState();
+    updatelocation();  
+    WidgetsBinding.instance
+            .addPostFrameCallback((_) => showDialog(
+              context: context,
+              builder: (BuildContext context)=> FancyDialog(
+                title: 'Reservation Proximity',
+                descreption: "We are limiting reservations to within your city so everyone else can have a piece of the pie! ",
+                ok: 'Confirm',
+                cancel: 'Sure! ',
+                animationType: FancyAnimation.TOP_BOTTOM,
+                gifPath: FancyGif.FUNNY_MAN,
+                theme: FancyTheme.FANCY,
+            )));  
+  }
+
 
   @override
     Widget build(BuildContext context)
-    {
+    { 
       return new Scaffold(
           appBar: new AppBar(
             backgroundColor: Color(0xFFCAE1FF),
@@ -67,7 +103,9 @@ class _Page2PageState extends State<Page2>{
               return new ListView.builder(
                 itemCount: snapshot.data.documents.length,
                 itemBuilder: (context,index){
-                  DocumentSnapshot ds = snapshot.data.documents[index];                           
+                  DocumentSnapshot ds = snapshot.data.documents[index];
+                  if( ds['latitude'] < (_currlatitude - 0.1) || ds['latitude'] > (_currlatitude + 0.1) ||
+                    ds['longitude'] < (_currlongitude - 0.1) || ds['longitude'] > (_currlongitude + 0.1)) return SizedBox(height: 10,);                         
                   return Stack(
                     children: <Widget>[
                       Column(children: <Widget>[
