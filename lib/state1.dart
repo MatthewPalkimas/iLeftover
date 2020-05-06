@@ -208,7 +208,8 @@ class _Page1PageState extends State<Page1>{
           "latitude": _latitude,
           'longitude': _longitude,
           "Time" : DateTime.now(),
-          'Reserved': 'no',
+          'Reserved': false,
+          'Complete':false,
           "doneruid": uid,
         }
       );

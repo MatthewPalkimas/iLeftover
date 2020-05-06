@@ -29,7 +29,6 @@ class Page2 extends StatefulWidget {
 }
 
 
-
 class _Page2PageState extends State<Page2>{
 
   Future _getcurrlocation() async { 
@@ -255,12 +254,13 @@ class _Page2PageState extends State<Page2>{
           ),
       );
     }
-
+    
     void _reserveupdate(String id)
     {
       final docref = Firestore.instance.collection('foodnew').document(id);
       docref.updateData({
         'Reserved': 'yes',
+        'Complete': false,
         });
 
     }

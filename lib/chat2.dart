@@ -27,7 +27,6 @@ class ChatScreenState extends State<ChatScreen> {
 
   void _handleSubmit(String text)  {
    
-    print(widget.currid);
     ds.document(groupid1).setData({
       'uidreserve': widget.uidreceiver,
       'uiddoner': widget.uiddoner,
