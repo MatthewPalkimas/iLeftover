@@ -27,12 +27,14 @@ class _Page4PageState extends State<Page4>{
       return new Scaffold(
           appBar: new AppBar(
             backgroundColor: Color(0xFFCAE1FF),
+            leading: new FlatButton(
+            child: new IconButton(
+              icon: Icon(Icons.arrow_back, color: Colors.black),
+              onPressed: widget.goBack,
+            ),
+              onPressed: widget.goBack 
+            ),
             actions: <Widget>[
-            new FlatButton(
-                child: new Text('Back', style: new TextStyle(fontSize: 17.0, color: Colors.white),),
-                onPressed: widget.goBack
-                
-              ),
             new FlatButton(
                 child: new Text('Logout', style: new TextStyle(fontSize: 17.0, color: Colors.white)),
                 onPressed: widget._signOut

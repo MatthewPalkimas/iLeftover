@@ -54,7 +54,7 @@ class _ChathomepageState extends State<Chathomepage> {
                   itemBuilder: (context,index){
                   DocumentSnapshot ds = snapshot.data.documents[index];
                   String otherid = ds['uidreserve']; // as oppposed to currid
-                  print(otherid);
+                //  print(otherid);
                   getname(otherid);
                   String temp = otherid + curruid;
                   int groupchatid = temp.hashCode;
