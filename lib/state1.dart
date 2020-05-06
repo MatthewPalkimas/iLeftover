@@ -115,85 +115,87 @@ class _Page1PageState extends State<Page1>{
               )
             ],
         ),
-          body: Column(
-            children: <Widget>[
-              SizedBox(width:10, height:10),
-              Padding(
-                padding: EdgeInsets.all(10.0),
-                child: Form(
-                  key: formKey,
-                  child: Column(
-                   // mainAxisSize: MainAxisSize.min,
-                    children: <Widget> [
-                       Container(
-                        width: 150,
-                        height: 150,
-                        decoration: BoxDecoration(
-                          border: Border.all(width:1, color: Colors.black),
-                        ),
-                        child: _storedImage != null
-                        ? Image.file(
-                          _storedImage,
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                        )
-                        : Text('No Image Selected', textAlign: TextAlign.center,),
-                        alignment: Alignment.center,
-                      ),
-                    
-                        FlatButton.icon(
-                          icon: Icon(Icons.camera), 
-                          label: Text('Take Picture'),
-                          textColor: Theme.of(context).primaryColor,
-                          onPressed:(){ _takePicture(context);} ,
+          body: SingleChildScrollView(
+                      child: Column(
+              children: <Widget>[
+                SizedBox(width:10, height:10),
+                Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                     // mainAxisSize: MainAxisSize.min,
+                      children: <Widget> [
+                         Container(
+                          width: 150,
+                          height: 150,
+                          decoration: BoxDecoration(
+                            border: Border.all(width:1, color: Colors.black),
                           ),
-                          
-                        SizedBox(height:10,),
-                        DropdownButton(
-                            items: _foodcategorylist.map((value) => DropdownMenuItem(
-                            child: Text(
-                              value,
-                              style: TextStyle(color: Color(0xff11b719)),
+                          child: _storedImage != null
+                          ? Image.file(
+                            _storedImage,
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                          )
+                          : Text('No Image Selected', textAlign: TextAlign.center,),
+                          alignment: Alignment.center,
+                        ),
+                      
+                          FlatButton.icon(
+                            icon: Icon(Icons.camera), 
+                            label: Text('Take Picture'),
+                            textColor: Theme.of(context).primaryColor,
+                            onPressed:(){ _takePicture(context);} ,
                             ),
-                            value: value,
-                          )).toList(), 
-                          onChanged: (selectedtype) {
-                            setState(() {
-                              _foodcategory = selectedtype;
-                            });
-                          },
-                          value: _foodcategory,
-                          isExpanded: false,
-                          hint: Text('Choose Food Category'),
-                          style: TextStyle(color: Color(0xff11b719)),
-                          ),     
-                      TextField(
-                        controller: _textFieldController1,
-                        decoration: InputDecoration(
-                          labelText: 'Food Name: ',  
+                            
+                          SizedBox(height:10,),
+                          DropdownButton(
+                              items: _foodcategorylist.map((value) => DropdownMenuItem(
+                              child: Text(
+                                value,
+                                style: TextStyle(color: Color(0xff11b719)),
+                              ),
+                              value: value,
+                            )).toList(), 
+                            onChanged: (selectedtype) {
+                              setState(() {
+                                _foodcategory = selectedtype;
+                              });
+                            },
+                            value: _foodcategory,
+                            isExpanded: false,
+                            hint: Text('Choose Food Category'),
+                            style: TextStyle(color: Color(0xff11b719)),
+                            ),     
+                        TextField(
+                          controller: _textFieldController1,
+                          decoration: InputDecoration(
+                            labelText: 'Food Name: ',  
+                          ),
                         ),
-                      ),
-                    
-                      TextField(
-                        controller: _textFieldController2,
-                        decoration: InputDecoration(
-                          labelText: 'Description: ',
+                      
+                        TextField(
+                          controller: _textFieldController2,
+                          decoration: InputDecoration(
+                            labelText: 'Description: ',
+                          ),
                         ),
-                      ),
-                       Align(
-                         alignment: Alignment.bottomCenter,
-                           child: RaisedButton(
-                           onPressed: (){
-                             _submit(context);
-                           },
-                           child: Text('Submit'),
-                           ),
-                       )
-                    ]
+                         Align(
+                           alignment: Alignment.bottomCenter,
+                             child: RaisedButton(
+                             onPressed: (){
+                               _submit(context);
+                             },
+                             child: Text('Submit'),
+                             ),
+                         )
+                      ]
+                    )
                   )
-                )
-              ),
-            ],
+                ),
+              ],
+            ),
           )
       );
     }

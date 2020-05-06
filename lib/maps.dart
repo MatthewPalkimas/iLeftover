@@ -116,8 +116,12 @@ class _Page3PageState extends State<Page3> {
       String user = await widget.auth.getuid();
       CollectionReference userdoc =  Firestore.instance.collection('users').document(user).collection('reservedfood');
       DocumentReference copyfrom =  Firestore.instance.collection('foodnew').document(id);
-      print('copy from docid: $id');
-      print("copy to userid: $user");
+       copyfrom.updateData({
+        'Reserved': 'yes',
+        'Complete': false,
+        });
+     // print('copy from docid: $id');
+     // print("copy to userid: $user");
       await copyfrom.get().then((dataread){
         userdoc.document(id).setData(dataread.data);
       });
@@ -277,7 +281,7 @@ class _Page3PageState extends State<Page3> {
   }
     @override 
     Widget build(BuildContext context){
-
+      createmarkers();
       return Scaffold(
         appBar: AppBar(
           leading: new FlatButton(

@@ -113,7 +113,7 @@ class _HomePage2State extends State<HomePage2>{
                                       size: 50.0
                                       ),
                                       new Text(
-                                        'Yoink',
+                                        'Reserve Food',
                                         style: TextStyle(fontSize: 40, color: Colors.black)
                                       ),
                                     ]

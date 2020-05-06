@@ -54,9 +54,10 @@ class _Page2PageState extends State<Page2>{
               context: context,
               builder: (BuildContext context)=> FancyDialog(
                 title: 'Reservation Proximity',
-                descreption: "We are limiting reservations to within a 7 mile radius so everyone else can have a piece of the pie! ",
+                descreption: "Limiting reservations to within a 7 mile radius so everyone else can have a piece of the pie! ",
                 ok: 'Confirm',
                 cancel: 'Sure! ',
+                cancelColor: Color(0xFF8784C7),
                 animationType: FancyAnimation.TOP_BOTTOM,
                 gifPath: FancyGif.FUNNY_MAN,
                 theme: FancyTheme.FANCY,

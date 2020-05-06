@@ -30,6 +30,7 @@ dependencies:
   fancy_dialog: ^1.0.1
   giffy_dialog: ^1.7.0
   flutter_icons: ^1.1.0
+  google_fonts: ^0.2.0
 
 
   firebase_auth: ^0.15.4
